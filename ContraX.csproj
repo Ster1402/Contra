@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F18A7B40-DC2E-4B9D-BC8F-B55D53DE47A4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Contra</RootNamespace>
+    <AssemblyName>Contra</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="components\Bullet.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Map\GameMap.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Map\SingleMap.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ground.cs" />
+    <Compile Include="Player.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="utils\Settings.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="bin\Debug\Contra.exe.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Contra.exe" />
+    <Content Include="bin\Debug\Contra.pdb" />
+    <None Include="Resources\bullet_down.png" />
+    <None Include="Resources\bullet_up.png" />
+    <None Include="bin\Debug\Resources\images\abstract-metal-scratch-wallpaper-thumb.jpg" />
+    <None Include="bin\Debug\Resources\images\a-green-jungle-background-illustration-R6K7M1.jpg" />
+    <Content Include="bin\Debug\Resources\images\arrow_back.png" />
+    <Content Include="bin\Debug\Resources\images\background.jpg" />
+    <Content Include="bin\Debug\Resources\images\background_MainMenu.gif" />
+    <Content Include="bin\Debug\Resources\images\background_map.png" />
+    <None Include="bin\Debug\Resources\images\user.png" />
+    <None Include="bin\Debug\Resources\images\sound_icon.png" />
+    <None Include="bin\Debug\Resources\images\contra_logo.png" />
+    <None Include="bin\Debug\Resources\images\contra_logo_1.png" />
+    <None Include="bin\Debug\Resources\images\enemies.png" />
+    <None Include="bin\Debug\Resources\images\game_logo.png" />
+    <None Include="bin\Debug\Resources\images\eyeLeft.png" />
+    <None Include="bin\Debug\Resources\images\back_image.jpg" />
+    <None Include="bin\Debug\Resources\images\back_image.png" />
+    <None Include="bin\Debug\Resources\images\back_image_scores.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_bottom_left.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_bottom_right.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_left.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_right.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_top_left.png" />
+    <None Include="bin\Debug\Resources\images\bullet\bullet_top_right.png" />
+    <Content Include="bin\Debug\Resources\images\heart_full.png" />
+    <None Include="bin\Debug\Resources\images\logo.png" />
+    <None Include="bin\Debug\Resources\images\joystick.png" />
+    <None Include="bin\Debug\Resources\images\jungle.jpg" />
+    <None Include="bin\Debug\Resources\images\jungle_green.jpg" />
+    <None Include="bin\Debug\Resources\images\jungle_menu.png" />
+    <Content Include="bin\Debug\Resources\images\Platform.jpg" />
+    <Content Include="bin\Debug\Resources\images\Running\Left\PicLeft1.png" />
+    <Content Include="bin\Debug\Resources\images\Running\Left\PicLeft2.png" />
+    <Content Include="bin\Debug\Resources\images\Running\Left\PicLeft3.png" />
+    <Content Include="bin\Debug\Resources\images\Running\Right\Pic1.png" />
+    <Content Include="bin\Debug\Resources\images\Running\Right\Pic2.png" />
+    <Content Include="bin\Debug\Resources\images\Running\Right\Pic3.png" />
+    <Content Include="bin\Debug\Resources\images\scores.jpg" />
+    <Content Include="bin\Debug\Resources\images\logo-ster-devs.png" />
+    <None Include="bin\Debug\Resources\images\nature.jpeg" />
+    <None Include="bin\Debug\Resources\images\background_settings.jpg" />
+    <None Include="bin\Debug\Resources\images\eye.png" />
+    <Content Include="bin\Debug\Resources\images\background_Scores.jpeg" />
+    <Content Include="bin\Debug\Resources\images\background_scoresPage.jpeg" />
+    <Content Include="bin\Debug\Resources\images\map_boss_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\Resources\sounds\" />
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
