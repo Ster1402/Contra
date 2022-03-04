@@ -23,17 +23,11 @@ namespace Contra
 
             for(int i=0; i < 14; i++)
             {
+                if (i % 5 == 0) continue;
+
                 platforms.Add(new Platform(this.map, i * 118, 260));
             }
 
-        }
-
-        public void moveGround(int left)
-        {
-            foreach (Platform platform in platforms)
-            {
-                platform.Left += left;
-            }
         }
 
     }

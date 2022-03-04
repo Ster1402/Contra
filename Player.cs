@@ -23,7 +23,6 @@ namespace Contra
         #region Properties
 
         private GameMap Map; //Map où se situe le joueur
-
         public string name { get; set; } //Nom du joueur
         public int speed { get; set; } //Vitesse du joueur
 
@@ -58,10 +57,10 @@ namespace Contra
         public bool isLookingRight { get; set; }
         public bool isLookingDown { get; set; }
 
+        public bool isJumping { get; set; }
         public int jumpingDelay { get; set; }
 
         public bool end { get; set; }
-
 
         #endregion
 
@@ -170,6 +169,23 @@ namespace Contra
 
         }
 
+        //Check if player is on ground
+        public bool IsPlayerIsOnGround()
+        {
+            foreach (SingleMap map in Map.maps)
+            {
+                foreach (Platform platform in map.ground.platforms)
+                {
+                    if (Bottom <= ( platform.Bottom) && Bottom <= ( platform.Top - 10)  )
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         //Move Player
         private void movePlayer()
         {
@@ -210,7 +226,6 @@ namespace Contra
         }
 
         //Jump
-
         private void ThreadJump()
         {
             Thread.CurrentThread.Name = "PlayerJump";
@@ -225,6 +240,7 @@ namespace Contra
                 {
                     if (isMovingUp)
                     {
+                        isJumping = true;
                         isOnGround = false;
                         shouldMove = false;
                         couldChangeDirection = false;
@@ -259,6 +275,7 @@ namespace Contra
 
                         isOnGround = true;
                         shouldMove = true;
+                        isJumping = false;
                         couldChangeDirection = true;
                     }
                 }
@@ -318,7 +335,6 @@ namespace Contra
         #endregion
 
         #region Shoot Bullet
-
         public void shoot()
         {
             bool bulletShouldGoLeft, bulletShouldGoRight;

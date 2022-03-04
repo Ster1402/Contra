@@ -734,8 +734,7 @@ namespace Contra
                     resumeGame();
                 }
 
-            }
-            
+            }   
         }
         private void OnKeysUp(object sender, KeyEventArgs e) {
             if (IsGameActive && player != null)
@@ -816,6 +815,8 @@ namespace Contra
 
         }
         #endregion
+
+        #region On game started
 
         private void GameLoad(object sender, EventArgs e)
         {
@@ -957,6 +958,8 @@ namespace Contra
 
             StartGame();
         }
+
+        #endregion
 
         #region Settings Events
 
@@ -1137,6 +1140,13 @@ namespace Contra
             ((Label)sender).ForeColor = Color.Ivory;
             ((Label)sender).BackColor = Color.Teal;
         }
+
+
+
+        #endregion
+
+
+        #region Gravity Management
 
 
 
