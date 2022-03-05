@@ -15,7 +15,12 @@ namespace Contra.Map
         
         public List<SingleMap> maps;
         public int numberOfMaps;
+        public int platformWidth;
+        
+        public Ground ground { get; set; }
+
         public TabPage parent;
+
 
         public Label scoreLabel { get; set; }
         public ProgressBar lifeBar { get; set; }
@@ -38,11 +43,11 @@ namespace Contra.Map
             maps = new List<SingleMap>();
             numberOfMaps = 4;
 
-            end = false;
+            end = false; //End thread
 
             Image = Properties.Resources.background_map;
             SizeMode = PictureBoxSizeMode.StretchImage;
-            Size = new Size(900, 900);
+            Size = new Size(1328, 900);
             Location = new Point(0, 0);
 
             for(int i = 0; i < numberOfMaps; i++)
@@ -114,6 +119,10 @@ namespace Contra.Map
             Controls.Add(playerName);
             Controls.Add(heartLifeIcon);
             Controls.Add(lifeBar);
+            
+            ground = new Ground(this);
+
+            groundLayout_Level_1();
 
             playerName.BringToFront();
             scoreLabel.BringToFront();
@@ -129,6 +138,23 @@ namespace Contra.Map
             //ThreadMovingMap.Start();
 
             #endregion
+
+        }
+
+        #endregion
+
+        #region Map structure
+
+        public void groundLayout_Level_1()
+        {
+
+            List<int> lefts = new List<int>() { 5 , 15 , 16 , 30 , 35 , 36 , 37 };
+            List<int> tops = new List<int>() { 190,  50 * 2 + 280, 50 * 2 + 260 , 180 , 180 , 180, 50 * 2 + 260 };
+
+            for(int i = 0; i < lefts.Count; i++)
+            {
+                ground.platforms.Add(new Platform(this, lefts[i] * platformWidth, tops[i] ));
+            }
 
         }
 
@@ -168,7 +194,7 @@ namespace Contra.Map
 
         #endregion
 
-        #region Thread
+        #region Map Moving Management
         public void ThreadMoving()
         {
             Thread.CurrentThread.Name = "GameMapThread";
@@ -198,32 +224,62 @@ namespace Contra.Map
         public void MoveMap()
         {
             Console.WriteLine(Thread.CurrentThread.Name + " : MoveMap....");
+
             if (maps.Last().Left > 10)
             {
                 switch (direction)
-            {
-                case Directions.Left:
+                {
+                    case Directions.Left:
 
-                    for(int i=0; i < maps.Count; i++)
-                    {
-                        maps[i].Left += 15;
-                    }
+                        MoveGroundLeft();
 
-                    break;
+                        for(int i=0; i < maps.Count; i++)
+                        {
+                            maps[i].Left += 20;
+                        }
 
-                case Directions.Right:
+                        break;
 
-                    for (int i = 0; i < maps.Count; i++)
-                    {
-                        maps[i].Left -= 15;
-                    }
+                    case Directions.Right:
 
-                    break;
-            }
+                        MoveGroundRight();
+
+                        for (int i = 0; i < maps.Count; i++)
+                        {
+                            maps[i].Left -= 20;
+
+                            if (maps[i].Right <= 0)
+                                Controls.Remove(maps[i]);
+                        }
+
+                        break;
+                }
 
             }
 
             Console.WriteLine(Thread.CurrentThread.Name + " : MoveMap End.");
+        }
+
+        private void MoveGroundLeft()
+        {
+            foreach (Platform platform in ground.platforms)
+            {
+                platform.Left += 20;
+
+                if (platform.Right <= 0)
+                    Controls.Remove(platform);
+            }
+        }
+
+        private void MoveGroundRight()
+        {
+            foreach (Platform platform in ground.platforms)
+            {
+                platform.Left -= 20;
+
+                if (platform.Right <= 0)
+                    Controls.Remove(platform);
+            }
         }
 
         #endregion

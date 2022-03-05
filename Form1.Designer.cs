@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameWindows));
             this.GamePages = new System.Windows.Forms.TabControl();
             this.mainMenuPage = new System.Windows.Forms.TabPage();
@@ -96,6 +97,7 @@
             this.labelSelectPlayer = new System.Windows.Forms.Label();
             this.textBoxPlayerName = new System.Windows.Forms.TextBox();
             this.settingsTitle = new System.Windows.Forms.Label();
+            this.gameGravity = new System.Windows.Forms.Timer(this.components);
             this.gameMap = new Contra.Map.GameMap();
             this.GamePages.SuspendLayout();
             this.mainMenuPage.SuspendLayout();
@@ -1142,8 +1144,15 @@
             this.settingsTitle.Tag = "settingElement";
             this.settingsTitle.Text = "Settings";
             // 
+            // gameGravity
+            // 
+            this.gameGravity.Interval = 50;
+            this.gameGravity.Tag = "timer";
+            this.gameGravity.Tick += new System.EventHandler(this.Gravity);
+            // 
             // gameMap
             // 
+            this.gameMap.end = false;
             this.gameMap.Image = ((System.Drawing.Image)(resources.GetObject("gameMap.Image")));
             this.gameMap.Location = new System.Drawing.Point(3, 3);
             this.gameMap.Name = "gameMap";
@@ -1289,6 +1298,7 @@
         private System.Windows.Forms.Label buttonResume;
         private System.Windows.Forms.Label buttonRestart;
         private System.Windows.Forms.Label titleGameMenu;
+        public System.Windows.Forms.Timer gameGravity;
     }
 }
 

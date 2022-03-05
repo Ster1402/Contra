@@ -10,7 +10,6 @@ namespace Contra.Map
 {
     public class SingleMap : PictureBox
     {
-        public Ground ground { get; set; }
 
         public SingleMap()
         {
@@ -19,10 +18,8 @@ namespace Contra.Map
             // 
             Image = Properties.Resources.background_map;
             Tag = "SingleMap";
-            Size = new Size(982, 514);
+            Size = new Size(1328, 900);
             SizeMode = PictureBoxSizeMode.StretchImage;
-            
-            ground = new Ground(this);
             
         }
     }

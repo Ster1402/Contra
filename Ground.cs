@@ -13,19 +13,25 @@ namespace Contra
     public class Ground
     {
         public List<Platform> platforms;
-        public SingleMap map;
+        public GameMap map;
 
-        public Ground(SingleMap map)
+        public Ground(GameMap map)
         {
             this.map = map;
 
             platforms = new List<Platform>();
 
-            for(int i=0; i < 14; i++)
-            {
-                if (i % 5 == 0) continue;
+            int platformsWidth = this.map.platformWidth = this.map.Width / 10;
 
-                platforms.Add(new Platform(this.map, i * 118, 260));
+            for(int i=0; i < 10 * map.numberOfMaps + 4; i++)
+            {
+                if (i == 5) continue;
+                if (i == 15) continue;
+                if (i == 30) continue;
+                if (i == 35) continue;
+
+                platforms.Add(new Platform(this.map, i * platformsWidth, 260));
+                
             }
 
         }
@@ -34,18 +40,21 @@ namespace Contra
 
     public class Platform : PictureBox
     {
-        public SingleMap map;
+        public GameMap map;
 
-        public Platform(SingleMap map, int left, int top)
+        public Platform(GameMap map, int left, int top)
         {
             this.map = map;
             Left = left;
             Image = Properties.Resources.Platform;
             SizeMode = PictureBoxSizeMode.StretchImage;
             Top = top;
-            Size = new Size(118, 50);
+
+            int platformsWidth = this.map.Width / 10;
+            Size = new Size(platformsWidth, 50);
 
             this.map.Controls.Add(this);
+            BringToFront();
         }
     }
 

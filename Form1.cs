@@ -245,7 +245,8 @@ namespace Contra
 
             try
             {
-                player.ThreadPlayerMouvement.Resume();
+                if (player != null)
+                    player.ThreadPlayerMouvement.Resume();
             }
             catch (Exception) { }
             finally
@@ -267,7 +268,7 @@ namespace Contra
 
                 if (gameMap != null)
                 {
-                    player.end = true;
+                    gameMap.end = true;
                 }
             }
 
@@ -785,7 +786,8 @@ namespace Contra
 
             try
             {
-                player.ThreadPlayerMouvement.Resume();
+                if (player != null)
+                    player.ThreadPlayerMouvement.Resume();
             }
             catch (Exception) { }
             finally
@@ -796,7 +798,6 @@ namespace Contra
                     player.end = true;
                 }
             }
-
 
             try
             {
@@ -835,6 +836,8 @@ namespace Contra
             player.isMovingUp = false;
             player.isShooting = false;
 
+            gameGravity.Enabled = false;
+
             gameMenu.Visible = true;
 
             try
@@ -846,11 +849,14 @@ namespace Contra
 
         }
         private void resumeGame() {
+            
             IsGameResumed = true;
             IsGamePaused = false;
             IsGameActive = true;
             gameMenu.Visible = false;
             player.shouldMove = false;
+
+            gameGravity.Enabled = true;
 
             try
             {
@@ -893,7 +899,7 @@ namespace Contra
             }
 
             gameMap.reload();
-
+            gameGravity.Enabled = false;
             gameMenu.Visible = false;
             showMainMenuPage();
         }
@@ -918,7 +924,7 @@ namespace Contra
             }
 
             player = new Player(gameMap);
-            
+            gameGravity.Enabled = true;
             IsGameActive = true;
             
         }
@@ -957,6 +963,10 @@ namespace Contra
             gameMap.reload();
 
             StartGame();
+        }
+        public void gameOver()
+        {
+
         }
 
         #endregion
@@ -1143,14 +1153,44 @@ namespace Contra
 
 
 
-        #endregion
 
+        #endregion
 
         #region Gravity Management
 
+        private void Gravity(object sender, EventArgs e)
+        {
+            if (player != null)
+            {
+                if (player.Bottom < Height && !player.isJumping)
+                {
+                    player.currentPlatform.BackColor = Color.Transparent;
 
+                    if ( !player.IsPlayerIsOnGround())
+                    {
+                        player.Top += 7;
+
+                        player.isOnGround = false;
+                        player.shouldMove = false;
+                        player.couldChangeDirection = false;
+                    }
+                    else
+                    {
+                        player.isOnGround = true;
+                        player.couldChangeDirection = true;
+
+                        player.currentPlatform.BackColor = Color.Green;
+                        
+                        //Console.WriteLine("Current platform : left = " + player.currentPlatform.Left + " right = " + player.currentPlatform.Right);
+                        //Console.WriteLine("Player : left = " + player.Left + " right = " + player.Right);
+
+                    }
+                }
+            }
+        }
 
         #endregion
+
 
     }
 }
