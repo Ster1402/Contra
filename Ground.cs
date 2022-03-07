@@ -25,11 +25,6 @@ namespace Contra
 
             for(int i=0; i < 10 * map.numberOfMaps + 4; i++)
             {
-                if (i == 5) continue;
-                if (i == 15) continue;
-                if (i == 30) continue;
-                if (i == 35) continue;
-
                 platforms.Add(new Platform(this.map, i * platformsWidth, 260));
                 
             }

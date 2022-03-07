@@ -22,9 +22,14 @@ namespace Contra
 
         #region Properties
 
+        public static object PlayerTag = "player";
+        public static object BulletTag = "player_bullet";
+
         private GameMap Map; //Map où se situe le joueur
         public Platform currentPlatform; //Platform sur laquelle le joueur se situe
 
+        public int life { get; set; }
+        public ProgressBar lifeBar { get; set; }
         public string name { get; set; } //Nom du joueur
         public int speed { get; set; } //Vitesse du joueur
 
@@ -72,7 +77,12 @@ namespace Contra
             //Init Map
             Map = parent;
 
-            name = "Player 1";
+            lifeBar = parent.lifeBar;
+
+            name = "SterDevs";
+            Tag = PlayerTag;
+            life = 100;
+
             speed = 15; //Player speed
             direction = Directions.Right; //Il regarde à droite par défaut
             isLookingRight = true;
@@ -135,11 +145,11 @@ namespace Contra
 
                 while (shouldMove)
                 {
-                    int numberOfImagesToShow = 3;
+                    int numberOfImagesToShow = 4;
                     while (numberOfImagesToShow > 0)
                     {
                         Map.Invoke(delegateThreadPlayerMouvement);
-                        Thread.Sleep(95);
+                        Thread.Sleep(90);
                         numberOfImagesToShow--;
                     }
 
@@ -149,7 +159,7 @@ namespace Contra
                         {
                             Map.direction = direction;
                             Map.couldMove = true;
-                            speed = 5;
+                            speed = 10;
                         }
                         else
                         {
@@ -226,7 +236,7 @@ namespace Contra
                 //Image = imagesMoveTop[imageIndex];
                 Top += currentPlatform.Height / 2 + 30;
 
-            }
+            } 
 
             if (isMovingRight)
             {
@@ -269,7 +279,7 @@ namespace Contra
                             while (Top >= maxJumpingHeight)
                             {
                                 Map.Invoke(delegateThreadPlayerJump);
-                                Thread.Sleep(50);
+                                Thread.Sleep(30);
                                 isMovingUp = true;
                             }
 
@@ -298,10 +308,6 @@ namespace Contra
                         isJumping = false;
                         couldChangeDirection = true;
                     }
-                }
-                else
-                {
-
                 }
 
                 Thread.Sleep(150);
@@ -356,14 +362,21 @@ namespace Contra
         #endregion
 
         #region Shoot Bullet
+
+        public void subirDegat(int degat)
+        {
+            lifeBar.Value = life = ((life - degat) >= 0) ? (life - degat) : 0;
+        }
+
         public void shoot()
         {
+
             bool bulletShouldGoLeft, bulletShouldGoRight;
 
             bulletShouldGoLeft = isLookingLeft;
             bulletShouldGoRight = isLookingRight;
 
-            if (isMovingUp && !isMovingLeft)
+            /*if (isMovingUp && !isMovingLeft)
                 bulletShouldGoLeft = false;
            
             if (isMovingUp && !isMovingRight)
@@ -374,13 +387,16 @@ namespace Contra
 
             if (isMovingDown && !isMovingRight)
                 bulletShouldGoRight = false;
+*/
 
             Bullet bullet = new Bullet(Map, this)
             {
                 isGoingLeft = bulletShouldGoLeft,
                 isGoingUp = isLookingUp,
                 isGoingRight = bulletShouldGoRight,
-                isGoingDown = isLookingDown
+                isGoingDown = isLookingDown,
+                Tag = "player_bullet",
+                Image = Properties.Resources.bullet_player
             };
 
             //On tire

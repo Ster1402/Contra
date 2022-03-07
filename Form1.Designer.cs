@@ -52,11 +52,19 @@
             this.title = new System.Windows.Forms.PictureBox();
             this.soundHover = new AxWMPLib.AxWindowsMediaPlayer();
             this.gamePage = new System.Windows.Forms.TabPage();
+            this.gameOverPanel = new System.Windows.Forms.Panel();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.gameOverLogo = new System.Windows.Forms.PictureBox();
+            this.gameOverPicture3 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.gameOverLabel = new System.Windows.Forms.Label();
             this.gameMenu = new System.Windows.Forms.Panel();
             this.buttonQuit = new System.Windows.Forms.Label();
             this.buttonResume = new System.Windows.Forms.Label();
             this.buttonRestart = new System.Windows.Forms.Label();
             this.titleGameMenu = new System.Windows.Forms.Label();
+            this.gameMap = new Contra.Map.GameMap();
             this.scoresPage = new System.Windows.Forms.TabPage();
             this.buttonBack = new System.Windows.Forms.Label();
             this.arrowBack = new System.Windows.Forms.PictureBox();
@@ -98,7 +106,6 @@
             this.textBoxPlayerName = new System.Windows.Forms.TextBox();
             this.settingsTitle = new System.Windows.Forms.Label();
             this.gameGravity = new System.Windows.Forms.Timer(this.components);
-            this.gameMap = new Contra.Map.GameMap();
             this.GamePages.SuspendLayout();
             this.mainMenuPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureMainMenu)).BeginInit();
@@ -117,7 +124,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.title)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.soundHover)).BeginInit();
             this.gamePage.SuspendLayout();
+            this.gameOverPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverPicture3)).BeginInit();
             this.gameMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).BeginInit();
             this.scoresPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowBack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureScoresMenu)).BeginInit();
@@ -135,7 +147,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarBackgroundMusic)).BeginInit();
             this.groupBoxAccount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).BeginInit();
             this.SuspendLayout();
             // 
             // GamePages
@@ -459,6 +470,7 @@
             // gamePage
             // 
             this.gamePage.BackColor = System.Drawing.Color.Transparent;
+            this.gamePage.Controls.Add(this.gameOverPanel);
             this.gamePage.Controls.Add(this.gameMenu);
             this.gamePage.Controls.Add(this.gameMap);
             this.gamePage.Location = new System.Drawing.Point(23, 4);
@@ -469,6 +481,113 @@
             this.gamePage.Tag = "tabPage";
             this.gamePage.Text = "GamePage";
             // 
+            // gameOverPanel
+            // 
+            this.gameOverPanel.BackColor = System.Drawing.Color.Red;
+            this.gameOverPanel.Controls.Add(this.pictureBox10);
+            this.gameOverPanel.Controls.Add(this.gameOverLogo);
+            this.gameOverPanel.Controls.Add(this.gameOverPicture3);
+            this.gameOverPanel.Controls.Add(this.label7);
+            this.gameOverPanel.Controls.Add(this.label6);
+            this.gameOverPanel.Controls.Add(this.gameOverLabel);
+            this.gameOverPanel.Location = new System.Drawing.Point(324, 61);
+            this.gameOverPanel.Name = "gameOverPanel";
+            this.gameOverPanel.Size = new System.Drawing.Size(911, 490);
+            this.gameOverPanel.TabIndex = 2;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox10.Image = global::Contra.Properties.Resources.gun_right;
+            this.pictureBox10.Location = new System.Drawing.Point(641, 210);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(240, 197);
+            this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox10.TabIndex = 7;
+            this.pictureBox10.TabStop = false;
+            // 
+            // gameOverLogo
+            // 
+            this.gameOverLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gameOverLogo.Image = global::Contra.Properties.Resources.logo_ster_devs;
+            this.gameOverLogo.Location = new System.Drawing.Point(849, 426);
+            this.gameOverLogo.Name = "gameOverLogo";
+            this.gameOverLogo.Size = new System.Drawing.Size(59, 61);
+            this.gameOverLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.gameOverLogo.TabIndex = 6;
+            this.gameOverLogo.TabStop = false;
+            // 
+            // gameOverPicture3
+            // 
+            this.gameOverPicture3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gameOverPicture3.Image = global::Contra.Properties.Resources.gun;
+            this.gameOverPicture3.Location = new System.Drawing.Point(24, 210);
+            this.gameOverPicture3.Name = "gameOverPicture3";
+            this.gameOverPicture3.Size = new System.Drawing.Size(240, 197);
+            this.gameOverPicture3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.gameOverPicture3.TabIndex = 5;
+            this.gameOverPicture3.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.BackColor = System.Drawing.Color.Chocolate;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label7.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Ivory;
+            this.label7.Location = new System.Drawing.Point(324, 334);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(242, 62);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Quit";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label7.Click += new System.EventHandler(this.OnButtonQuitGameOverClicked);
+            this.label7.MouseEnter += new System.EventHandler(this.OnMouseEnterGameOverButton);
+            this.label7.MouseLeave += new System.EventHandler(this.OnMouseLeaveGameOverButton);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.label6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label6.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Ivory;
+            this.label6.Location = new System.Drawing.Point(324, 210);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(242, 60);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Restart";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label6.Click += new System.EventHandler(this.OnButtonRestartGameOverClicked);
+            this.label6.MouseEnter += new System.EventHandler(this.OnMouseEnterGameOverButton);
+            this.label6.MouseLeave += new System.EventHandler(this.OnMouseLeaveGameOverButton);
+            // 
+            // gameOverLabel
+            // 
+            this.gameOverLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gameOverLabel.BackColor = System.Drawing.Color.DarkRed;
+            this.gameOverLabel.Font = new System.Drawing.Font("Ravie", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gameOverLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.gameOverLabel.Location = new System.Drawing.Point(206, 36);
+            this.gameOverLabel.Name = "gameOverLabel";
+            this.gameOverLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.gameOverLabel.Size = new System.Drawing.Size(483, 111);
+            this.gameOverLabel.TabIndex = 2;
+            this.gameOverLabel.Text = "Game Over !";
+            this.gameOverLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // gameMenu
             // 
             this.gameMenu.BackColor = System.Drawing.Color.Teal;
@@ -476,7 +595,7 @@
             this.gameMenu.Controls.Add(this.buttonResume);
             this.gameMenu.Controls.Add(this.buttonRestart);
             this.gameMenu.Controls.Add(this.titleGameMenu);
-            this.gameMenu.Location = new System.Drawing.Point(405, 121);
+            this.gameMenu.Location = new System.Drawing.Point(516, 157);
             this.gameMenu.Name = "gameMenu";
             this.gameMenu.Size = new System.Drawing.Size(466, 301);
             this.gameMenu.TabIndex = 1;
@@ -548,6 +667,20 @@
             this.titleGameMenu.TabIndex = 0;
             this.titleGameMenu.Text = "PAUSE";
             this.titleGameMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gameMap
+            // 
+            this.gameMap.end = false;
+            this.gameMap.gameStarted = false;
+            this.gameMap.Image = ((System.Drawing.Image)(resources.GetObject("gameMap.Image")));
+            this.gameMap.Location = new System.Drawing.Point(3, 3);
+            this.gameMap.Name = "gameMap";
+            this.gameMap.score = 0;
+            this.gameMap.shouldShowWelcomeLabel = false;
+            this.gameMap.Size = new System.Drawing.Size(1328, 900);
+            this.gameMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.gameMap.TabIndex = 0;
+            this.gameMap.TabStop = false;
             // 
             // scoresPage
             // 
@@ -1150,17 +1283,6 @@
             this.gameGravity.Tag = "timer";
             this.gameGravity.Tick += new System.EventHandler(this.Gravity);
             // 
-            // gameMap
-            // 
-            this.gameMap.end = false;
-            this.gameMap.Image = ((System.Drawing.Image)(resources.GetObject("gameMap.Image")));
-            this.gameMap.Location = new System.Drawing.Point(3, 3);
-            this.gameMap.Name = "gameMap";
-            this.gameMap.Size = new System.Drawing.Size(1328, 900);
-            this.gameMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.gameMap.TabIndex = 0;
-            this.gameMap.TabStop = false;
-            // 
             // GameWindows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1197,8 +1319,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.title)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.soundHover)).EndInit();
             this.gamePage.ResumeLayout(false);
+            this.gameOverPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverPicture3)).EndInit();
             this.gameMenu.ResumeLayout(false);
             this.gameMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).EndInit();
             this.scoresPage.ResumeLayout(false);
             this.scoresPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowBack)).EndInit();
@@ -1223,7 +1350,6 @@
             this.groupBoxAccount.ResumeLayout(false);
             this.groupBoxAccount.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1299,6 +1425,13 @@
         private System.Windows.Forms.Label buttonRestart;
         private System.Windows.Forms.Label titleGameMenu;
         public System.Windows.Forms.Timer gameGravity;
+        private System.Windows.Forms.Panel gameOverPanel;
+        private System.Windows.Forms.PictureBox gameOverPicture3;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label gameOverLabel;
+        private System.Windows.Forms.PictureBox pictureBox10;
+        private System.Windows.Forms.PictureBox gameOverLogo;
     }
 }
 

@@ -22,7 +22,7 @@ namespace Contra.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Contra.Properties {
         ///   Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Contra.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Contra.Properties {
         ///   les recherches de ressources à l'aide de cette classe de ressource fortement typée.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_back {
+        public static System.Drawing.Bitmap arrow_back {
             get {
                 object obj = ResourceManager.GetObject("arrow_back", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap back_image {
+        public static System.Drawing.Bitmap back_image {
             get {
                 object obj = ResourceManager.GetObject("back_image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap back_image_scores {
+        public static System.Drawing.Bitmap back_image_scores {
             get {
                 object obj = ResourceManager.GetObject("back_image_scores", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap background {
+        public static System.Drawing.Bitmap background {
             get {
                 object obj = ResourceManager.GetObject("background", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap background_map {
+        public static System.Drawing.Bitmap background_map {
             get {
                 object obj = ResourceManager.GetObject("background_map", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_bottom_left {
+        public static System.Drawing.Bitmap bullet_bottom_left {
             get {
                 object obj = ResourceManager.GetObject("bullet_bottom_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_bottom_right {
+        public static System.Drawing.Bitmap bullet_bottom_right {
             get {
                 object obj = ResourceManager.GetObject("bullet_bottom_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_down {
+        public static System.Drawing.Bitmap bullet_down {
             get {
                 object obj = ResourceManager.GetObject("bullet_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_left {
+        public static System.Drawing.Bitmap bullet_left {
             get {
                 object obj = ResourceManager.GetObject("bullet_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,57 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_right {
+        public static System.Drawing.Bitmap bullet_player {
+            get {
+                object obj = ResourceManager.GetObject("bullet_player", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bullet_rank_1 {
+            get {
+                object obj = ResourceManager.GetObject("bullet_rank_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bullet_rank_2 {
+            get {
+                object obj = ResourceManager.GetObject("bullet_rank_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bullet_rank_3 {
+            get {
+                object obj = ResourceManager.GetObject("bullet_rank_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bullet_rank_3_above {
+            get {
+                object obj = ResourceManager.GetObject("bullet_rank_3_above", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bullet_right {
             get {
                 object obj = ResourceManager.GetObject("bullet_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +213,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_top_left {
+        public static System.Drawing.Bitmap bullet_top_left {
             get {
                 object obj = ResourceManager.GetObject("bullet_top_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +223,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_top_right {
+        public static System.Drawing.Bitmap bullet_top_right {
             get {
                 object obj = ResourceManager.GetObject("bullet_top_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +233,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bullet_up {
+        public static System.Drawing.Bitmap bullet_up {
             get {
                 object obj = ResourceManager.GetObject("bullet_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +243,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap contra_logo {
+        public static System.Drawing.Bitmap contra_logo {
             get {
                 object obj = ResourceManager.GetObject("contra_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +253,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap contra_logo_1 {
+        public static System.Drawing.Bitmap contra_logo_1 {
             get {
                 object obj = ResourceManager.GetObject("contra_logo_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,9 +263,9 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enemies {
+        public static System.Drawing.Bitmap enemy {
             get {
-                object obj = ResourceManager.GetObject("enemies", resourceCulture);
+                object obj = ResourceManager.GetObject("enemy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,7 +273,27 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap eye {
+        public static System.Drawing.Bitmap enemy_rank_2 {
+            get {
+                object obj = ResourceManager.GetObject("enemy_rank_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap enemy_rank_3 {
+            get {
+                object obj = ResourceManager.GetObject("enemy_rank_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap eye {
             get {
                 object obj = ResourceManager.GetObject("eye", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +303,27 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heart_full {
+        public static System.Drawing.Bitmap gun {
+            get {
+                object obj = ResourceManager.GetObject("gun", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap gun_right {
+            get {
+                object obj = ResourceManager.GetObject("gun_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap heart_full {
             get {
                 object obj = ResourceManager.GetObject("heart_full", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +333,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap joystick {
+        public static System.Drawing.Bitmap joystick {
             get {
                 object obj = ResourceManager.GetObject("joystick", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +343,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap jungle {
+        public static System.Drawing.Bitmap jungle {
             get {
                 object obj = ResourceManager.GetObject("jungle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +353,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap jungle_menu {
+        public static System.Drawing.Bitmap jungle_menu {
             get {
                 object obj = ResourceManager.GetObject("jungle_menu", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +363,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap logo {
+        public static System.Drawing.Bitmap logo {
             get {
                 object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +373,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap logo_ster_devs {
+        public static System.Drawing.Bitmap logo_ster_devs {
             get {
                 object obj = ResourceManager.GetObject("logo_ster_devs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +383,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicLeft1 {
+        public static System.Drawing.Bitmap PicLeft1 {
             get {
                 object obj = ResourceManager.GetObject("PicLeft1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +393,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicLeft2 {
+        public static System.Drawing.Bitmap PicLeft2 {
             get {
                 object obj = ResourceManager.GetObject("PicLeft2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +403,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicLeft3 {
+        public static System.Drawing.Bitmap PicLeft3 {
             get {
                 object obj = ResourceManager.GetObject("PicLeft3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +413,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicRight1 {
+        public static System.Drawing.Bitmap PicRight1 {
             get {
                 object obj = ResourceManager.GetObject("PicRight1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -333,7 +423,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicRight2 {
+        public static System.Drawing.Bitmap PicRight2 {
             get {
                 object obj = ResourceManager.GetObject("PicRight2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -343,7 +433,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PicRight3 {
+        public static System.Drawing.Bitmap PicRight3 {
             get {
                 object obj = ResourceManager.GetObject("PicRight3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -353,7 +443,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Platform {
+        public static System.Drawing.Bitmap Platform {
             get {
                 object obj = ResourceManager.GetObject("Platform", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -363,7 +453,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap scores {
+        public static System.Drawing.Bitmap scores {
             get {
                 object obj = ResourceManager.GetObject("scores", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -373,7 +463,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sound_icon {
+        public static System.Drawing.Bitmap sound_icon {
             get {
                 object obj = ResourceManager.GetObject("sound_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -383,7 +473,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à PicRight.
         /// </summary>
-        internal static string String {
+        public static string String {
             get {
                 return ResourceManager.GetString("String", resourceCulture);
             }
@@ -392,7 +482,7 @@ namespace Contra.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap user {
+        public static System.Drawing.Bitmap user {
             get {
                 object obj = ResourceManager.GetObject("user", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

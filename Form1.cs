@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Contra.Map;
 using Contra.utils;
 
 namespace Contra
@@ -15,7 +10,7 @@ namespace Contra
     public partial class GameWindows : Form
     {
         #region Game Properties
-        
+
         //Variables de controles booléennes
         public bool IsGameActive;
         public bool IsGamePaused;
@@ -61,11 +56,17 @@ namespace Contra
             Thread.CurrentThread.Name = "Windows Thread";
 
             InitializeComponent();
+
             init();
 
             showMainMenuPage();
 
             resizeItem();
+
+            //Game Over Panel
+            gameOverPanel.Visible = false;
+            gameOverPanel.Enabled = false;
+
         }
         #endregion
 
@@ -156,11 +157,13 @@ namespace Contra
             groupBoxCommands.Left = 5 + groupBoxAudio.Left + groupBoxAudio.Width; ;
 
 
-            //settingsTitle.Location = new Point(settingsBox.Width / 2 - settingsTitle.Width / 2, settingsTitle.Location.Y - 45);
-            //groupBoxAccount.Location = new Point(settingsBox.Width / 2 - groupBoxAccount.Width / 2, groupBoxAccount.Location.Y - 47);
+            //Game Menu
+            gameMenu.Left = Width / 2 - gameMenu.Width / 2;
+            gameMenu.Top = Height / 2 - gameMenu.Height / 2 - 20;
 
-            //groupBoxAudio.Location = new Point(groupBoxAccount.Location.X - (groupBoxAccount.Width / 2) - 5, groupBoxAudio.Location.Y - 52);
-            //groupBoxCommands.Location = new Point(groupBoxAudio.Location.X + (groupBoxAudio.Width / 2) + 5, groupBoxCommands.Location.Y - 52);
+            buttonRestart.Left = gameMenu.Width / 2 - buttonRestart.Width / 2;
+            buttonReset.Left = gameMenu.Width / 2 - buttonReset.Width / 2;
+            buttonQuit.Left = gameMenu.Width / 2 - buttonQuit.Width / 2;
 
             settingsBox.BringToFront();
             settingsTitle.BringToFront();
@@ -190,8 +193,12 @@ namespace Contra
             gameMap.heartLifeIcon.Left = Width - gameMap.heartLifeIcon.Width - gameMap.lifeBar.Width - 35;
             gameMap.heartLifeIcon.Top = 10;
 
-            gameMap.playerName.Left = Width - gameMap.playerName.Width - gameMap.heartLifeIcon.Width - gameMap.lifeBar.Width - 15;
             gameMap.playerName.Top = 10;
+
+
+            //Game Over Panel
+            gameOverPanel.Left = Width / 2 - gameOverPanel.Width / 2;
+            gameOverPanel.Top = Height / 2 - gameOverPanel.Height / 2 - 30;
 
             gameMap.resizeMap();
 
@@ -242,38 +249,8 @@ namespace Contra
         private void OnButtonExitClicked(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-
-            try
-            {
-                if (player != null)
-                    player.ThreadPlayerMouvement.Resume();
-            }
-            catch (Exception) { }
-            finally
-            {
-
-                if (player != null)
-                {
-                    player.end = true;
-                }
-            }
-
-            try
-            {
-                gameMap.ThreadMovingMap.Resume();
-            }
-            catch (Exception) { }
-            finally
-            {
-
-                if (gameMap != null)
-                {
-                    gameMap.end = true;
-                }
-            }
-
-            Application.Exit();
-
+            Environment.Exit(0);
+            
         }
         #endregion
         
@@ -292,8 +269,6 @@ namespace Contra
 
             try
             {
-                
-                playHoverButtonMusic("Allumette.mp3");
                 playBackgroundMusic("Intro.mp3");
             }
             catch (Exception) { }
@@ -314,6 +289,8 @@ namespace Contra
         }
         private void showGamePage()
         {
+            gameMap.resizePlayerName();
+
             try
             {
                 stopBackgroundMusic();
@@ -658,8 +635,11 @@ namespace Contra
                     {
                         if (e.KeyCode.ToString() == settings.playerKeys["KeyShoot"])
                         {
-                            player.isShooting = true;
-                            player.shoot();
+                            if (!player.isShooting)
+                            {
+                                player.isShooting = true;
+                                player.shoot();
+                            }
 
                         }else if (e.KeyCode == Keys.Enter )
                         {
@@ -708,7 +688,7 @@ namespace Contra
                             player.isLookingDown = true;
                         
                         }
-                        else if (e.KeyCode == Keys.Escape)
+                        else if (e.KeyCode == Keys.Escape && !IsGameOver)
                         {
                             if (IsGameActive)
                             {
@@ -730,7 +710,7 @@ namespace Contra
                     else if (IsScoresPageActive)
                         showMainMenuPage();
                 }
-                else if (IsGamePaused && e.KeyCode == Keys.Escape )
+                else if (IsGamePaused && e.KeyCode == Keys.Escape && !IsGameOver)
                 {
                     resumeGame();
                 }
@@ -767,6 +747,9 @@ namespace Contra
                         player.shouldMove = false;
                         player.isMovingDown = false;
                         player.isLookingDown = false;
+                    }else if (e.KeyCode.ToString() == settings.playerKeys["KeyShoot"])
+                    {
+                        player.isShooting = false;
                     }
 
                 }
@@ -783,37 +766,7 @@ namespace Contra
         #region On Application Closed (Before)
         private void BeforeWindowsClose(object sender, FormClosingEventArgs e)
         {
-
-            try
-            {
-                if (player != null)
-                    player.ThreadPlayerMouvement.Resume();
-            }
-            catch (Exception) { }
-            finally
-            {
-
-                if (player != null)
-                {
-                    player.end = true;
-                }
-            }
-
-            try
-            {
-                gameMap.ThreadMovingMap.Resume();
-            }
-            catch (Exception) { }
-            finally
-            {
-                if (gameMap != null)
-                {
-                    gameMap.end = true;
-                }
-            }
-
-            Application.Exit();
-
+            Environment.Exit(0);
         }
         #endregion
 
@@ -840,9 +793,13 @@ namespace Contra
 
             gameMenu.Visible = true;
 
+            soundBackground.Ctlcontrols.pause();
+            playHoverButtonMusic("Allumette.mp3");
+
             try
             {
                 player.ThreadPlayerMouvement.Suspend();
+                gameMap.pauseEnemiesThread();
                 gameMap.ThreadMovingMap.Suspend();
             
             }catch (Exception) { }
@@ -858,10 +815,13 @@ namespace Contra
 
             gameGravity.Enabled = true;
 
+            soundBackground.Ctlcontrols.play();
+
             try
             {
                 player.ThreadPlayerMouvement.Resume();
                 gameMap.ThreadMovingMap.Resume();
+                gameMap.resumeEnemiesThread();
 
             }
             catch (Exception) { }
@@ -878,6 +838,7 @@ namespace Contra
 
             try
             {
+                gameMap.pauseEnemiesThread();
                 gameMap.ThreadMovingMap.Suspend();
             }
             catch (Exception) { }
@@ -898,7 +859,16 @@ namespace Contra
                 }
             }
 
+            try
+            {
+                gameMap.resumeEnemiesThread();
+            }
+            catch (Exception) { }
+
+            gameMap.endEnemiesThread();
             gameMap.reload();
+            gameMap.startEnemiesThread();
+
             gameGravity.Enabled = false;
             gameMenu.Visible = false;
             showMainMenuPage();
@@ -910,23 +880,30 @@ namespace Contra
                 try
                 {
                     gameMap.ThreadMovingMap.Start();
-                }
-                catch (Exception) { }
+            
+                    gameMap.startEnemiesThread();
 
-            }else if (gameMap.ThreadMovingMap.ThreadState == ThreadState.Suspended)
-            {
-                try
-                {
-                    gameMap.ThreadMovingMap.Resume();
                 }
                 catch (Exception) { }
 
             }
+            else if (gameMap.ThreadMovingMap.ThreadState == ThreadState.Suspended)
+            {
+                try
+                {
+                    gameMap.ThreadMovingMap.Resume();
+                    gameMap.resumeEnemiesThread();
+
+                }
+                catch (Exception) { }
+            }
 
             player = new Player(gameMap);
             gameGravity.Enabled = true;
-            IsGameActive = true;
             
+            IsGameActive = true;
+            IsGameOver = false;
+            gameMap.gameStarted = true;
         }
         private void restart()
         {
@@ -935,6 +912,8 @@ namespace Contra
             IsGamePaused = false;
 
             gameMenu.Visible = false;
+
+            playBackgroundMusic("Level_1.mp3");
 
             try
             {
@@ -960,13 +939,31 @@ namespace Contra
 
             }
 
+            try
+            {
+                gameMap.resumeEnemiesThread();
+            }
+            catch (Exception) { }
+
+
+            gameMap.endEnemiesThread();
             gameMap.reload();
+            gameMap.startEnemiesThread();
 
             StartGame();
         }
         public void gameOver()
         {
+            playBackgroundMusic("GameOver.mp3");
+            soundBackground.settings.setMode("loop", false);
 
+            gameGravity.Enabled = false;
+            IsGameOver = true;
+
+            gameOverPanel.Visible = true;
+            gameOverPanel.Enabled = true;
+
+            gameOverLabel.BringToFront();
         }
 
         #endregion
@@ -1135,6 +1132,7 @@ namespace Contra
         }
         private void OnMouseEnterGameMenuButton(object sender, EventArgs e)
         {
+            playHoverButtonMusic("button_hover.wav");
 
             ((Label)sender).ForeColor = Color.Black;
 
@@ -1151,16 +1149,13 @@ namespace Contra
             ((Label)sender).BackColor = Color.Teal;
         }
 
-
-
-
         #endregion
 
         #region Gravity Management
 
         private void Gravity(object sender, EventArgs e)
         {
-            if (player != null)
+            if (player != null && !IsGameOver)
             {
                 if (player.Bottom < Height && !player.isJumping)
                 {
@@ -1179,18 +1174,57 @@ namespace Contra
                         player.isOnGround = true;
                         player.couldChangeDirection = true;
 
-                        player.currentPlatform.BackColor = Color.Green;
+                        //player.currentPlatform.BackColor = Color.Green;
                         
                         //Console.WriteLine("Current platform : left = " + player.currentPlatform.Left + " right = " + player.currentPlatform.Right);
                         //Console.WriteLine("Player : left = " + player.Left + " right = " + player.Right);
 
                     }
+
+                }
+                else if ( player.Bottom >= Height )
+                {
+                    player.Top = 100;
+                    player.subirDegat(20);
+                }
+                
+                if ( player.life == 0 )
+                {
+                    gameOver();
                 }
             }
         }
 
         #endregion
 
+        #region Game Over Event Menu
+        private void OnMouseEnterGameOverButton(object sender, EventArgs e)
+        {
+            playHoverButtonMusic("button_hover.wav");
+            ((Label)sender).ForeColor = Color.Gold;
+
+        }
+        private void OnMouseLeaveGameOverButton(object sender, EventArgs e)
+        {
+            ((Label)sender).ForeColor = Color.Ivory;
+        }
+
+        private void OnButtonRestartGameOverClicked(object sender, EventArgs e)
+        {
+            gameOverPanel.Visible = false;
+            gameOverPanel.Enabled = false;
+            restart();
+        }
+
+        private void OnButtonQuitGameOverClicked(object sender, EventArgs e)
+        {
+            gameOverPanel.Visible = false;
+            gameOverPanel.Enabled = false;
+            
+            stopGame();
+        }
+
+        #endregion
 
     }
 }

@@ -49,6 +49,9 @@
     <Compile Include="components\Bullet.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Enemy.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,7 +79,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -97,6 +100,8 @@
   <ItemGroup>
     <Content Include="bin\Debug\Contra.exe" />
     <Content Include="bin\Debug\Contra.pdb" />
+    <None Include="Resources\Image1.png" />
+    <None Include="Resources\enemy_bullet.png" />
     <None Include="Resources\bullet_down.png" />
     <None Include="Resources\bullet_up.png" />
     <None Include="bin\Debug\Resources\images\abstract-metal-scratch-wallpaper-thumb.jpg" />
@@ -121,6 +126,15 @@
     <None Include="bin\Debug\Resources\images\bullet\bullet_right.png" />
     <None Include="bin\Debug\Resources\images\bullet\bullet_top_left.png" />
     <None Include="bin\Debug\Resources\images\bullet\bullet_top_right.png" />
+    <None Include="bin\Debug\Resources\images\gun.png" />
+    <None Include="bin\Debug\Resources\images\gun_right.png" />
+    <None Include="bin\Debug\Resources\images\enemy_rank_2.png" />
+    <None Include="bin\Debug\Resources\images\enemy_rank_3.png" />
+    <None Include="bin\Debug\Resources\images\bullet_player.png" />
+    <None Include="bin\Debug\Resources\images\bullet_rank_1.png" />
+    <None Include="bin\Debug\Resources\images\bullet_rank_2.png" />
+    <None Include="bin\Debug\Resources\images\bullet_rank_3_above.png" />
+    <None Include="bin\Debug\Resources\images\bullet_rank_3.png" />
     <Content Include="bin\Debug\Resources\images\heart_full.png" />
     <None Include="bin\Debug\Resources\images\logo.png" />
     <None Include="bin\Debug\Resources\images\joystick.png" />

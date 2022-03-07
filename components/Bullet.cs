@@ -27,6 +27,8 @@ namespace Contra.components
         public bool isGoingDown { get; set; }
         public int speed { get; set; }
 
+        public bool end { get; set; }
+
         //
         //Thread
         //
@@ -44,10 +46,10 @@ namespace Contra.components
         {
             index++;
 
-            speed = 5;
+            speed = 50;
 
             Map = map;
-            Size = new Size(40,10);
+            Size = new Size(20,20);
             SizeMode = PictureBoxSizeMode.StretchImage;
             Tag = BulletTag;
 
@@ -61,6 +63,7 @@ namespace Contra.components
             isGoingDown = false;
 
             isOutOfBox = false;
+            end = false;
 
             Map.Controls.Add(this);
             BringToFront();
@@ -79,7 +82,7 @@ namespace Contra.components
             Thread.CurrentThread.Name = "Task create : Bullet " + index;
             Console.WriteLine(Thread.CurrentThread.Name);
 
-            while (!isOutOfBox)
+            while (!isOutOfBox && !end)
             {
                 try
                 {
@@ -96,52 +99,42 @@ namespace Contra.components
 
         public void moveBullet()
         {
-            //Image
+            /*//Image
             if (isGoingLeft && !isGoingUp && !isGoingDown)
             {
-                Size = new Size(40, 10);
                 Image = Properties.Resources.bullet_left;
 
             }
             else if (isGoingRight && !isGoingUp && !isGoingDown)
             {
-                Size = new Size(40, 10);
                 Image = Properties.Resources.bullet_right;
 
             }
             else if (isGoingLeft && isGoingUp)
             {
-                Size = new Size(40, 45);
                 Image = Properties.Resources.bullet_top_left;
 
             }
             else if (isGoingRight && isGoingUp)
             {
-                Size = new Size(40, 45);
                 Image = Properties.Resources.bullet_top_right;
             }
             else if (isGoingLeft && isGoingDown)
             {
-                Size = new Size(40, 45);
                 Image = Properties.Resources.bullet_bottom_left;
             }
             else if (isGoingRight && isGoingDown)
             {
-                Size = new Size(40, 45);
                 Image = Properties.Resources.bullet_bottom_right;
-
             }
             else if (!isGoingLeft && !isGoingRight && isGoingUp && !isGoingDown)
             {
-                Size = new Size(10, 40);
                 Image = Properties.Resources.bullet_up;
-
             }
             else if (!isGoingLeft && !isGoingRight && !isGoingUp && isGoingDown)
             {
-                Size = new Size(10, 40);
                 Image = Properties.Resources.bullet_down;
-            }
+            }*/
 
             if (isGoingLeft)
             {
@@ -165,7 +158,7 @@ namespace Contra.components
 
             isOutOfBox = (Left < 0) || (Left >= Map.Width ) || (Top < 0) || (Top >= Map.Height);
 
-            if (isOutOfBox)
+            if (isOutOfBox && !end)
                 Map.Controls.Remove(this);
 
         }
