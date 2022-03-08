@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Windows.Forms;
-using Contra.components;
+﻿using Contra.components;
 using Contra.Map;
+using System;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Contra
 {
@@ -16,9 +12,15 @@ namespace Contra
 
         #region Properties
 
+        public DateTime coolDown { get; set; }
+
         public static int index;
         public int rank { get; set; }
         public bool couldUpgrade { get; set; }
+
+        public Bitmap imageLeft { get; set; }
+        public Bitmap imageRight { get; set; }
+
 
         public Bitmap bullet_image { get; set; }
         public int degat { get; set; }
@@ -33,6 +35,7 @@ namespace Contra
 
         public bool isLookingUp { get; set; }
         public bool isLookingDown { get; set; }
+        
         public bool isMovingLeft { get; set; }
         public bool isMovingRight { get; set; }
 
@@ -61,15 +64,20 @@ namespace Contra
             Size = new Size(65, 65);
             tag = Tag = "Enemy";
 
+            imageLeft = Properties.Resources.enemy;
+            imageRight = Properties.Resources.enemy_rank_1_right;
+
             Image = Properties.Resources.enemy;
             SizeMode = PictureBoxSizeMode.StretchImage;
 
-            life = new ProgressBar();
-            life.Size = new Size(Width, 15);
-            life.BackColor = Color.Red;
-            life.ForeColor = Color.DarkGreen;
-            life.Maximum = 100;
-            life.Value = 100;
+            life = new ProgressBar
+            {
+                Size = new Size(Width, 15),
+                BackColor = Color.Red,
+                ForeColor = Color.DarkGreen,
+                Maximum = 100,
+                Value = 100
+            };
 
             Controls.Add(life);
 
@@ -87,7 +95,7 @@ namespace Contra
 
             threadMoveEnemy = new Thread(MoveEnemyThread);
             delegateMoveEnemy = new DelegateMoveEnemy(MoveEnemy);
-            
+
         }
 
         #endregion
@@ -107,6 +115,9 @@ namespace Contra
                     life.Maximum = 200;
                     life.Value = 200;
 
+                    imageLeft = Properties.Resources.enemy_rank_2;
+                    imageRight = Properties.Resources.enemy_rank_2_right;
+
                     rank = 2;
                     degat = 10;
                     Image = Properties.Resources.enemy_rank_2;
@@ -117,6 +128,9 @@ namespace Contra
                     life.Maximum = 300;
                     life.Value = 300;
 
+                    imageLeft = Properties.Resources.enemy_rank_3;
+                    imageRight = Properties.Resources.enemy_rank_3_right;
+
                     rank = 3;
                     degat = 20;
                     Image = Properties.Resources.enemy_rank_3;
@@ -124,11 +138,11 @@ namespace Contra
                 }
                 else if (rank == 3)
                 {
-                    degat = 30;
+                    degat = 25;
                     couldUpgrade = false;
                     bullet_image = Properties.Resources.bullet_rank_3_above;
                 }
-        
+
             }
 
         }
@@ -139,21 +153,26 @@ namespace Contra
         {
             Thread.CurrentThread.Name = "Enemy " + index;
             Console.WriteLine(Thread.CurrentThread.Name);
-            
+
             int i = 0;
 
             while (!end)
             {
                 Thread.Sleep(500);
-                
-                if (life.Value == 0)
-                    end = true;
 
-                if (end) return;
+                if (life.Value == 0)
+                {
+                    end = true;
+                }
+
+                if (end)
+                {
+                    return;
+                }
 
                 try
                 {
-                    
+
                     if (isMovingLeft)
                     {
 
@@ -163,14 +182,19 @@ namespace Contra
                             Thread.Sleep(150);
                             try
                             {
-                                if (end) return;
+                                if (end)
+                                {
+                                    return;
+                                }
+
                                 Parent.Invoke(delegateMoveEnemy);
 
-                            }catch (NullReferenceException) { }
+                            }
+                            catch (NullReferenceException) { }
 
                             i++;
                         }
-                    
+
                         isMovingLeft = false;
                         isMovingRight = true;
 
@@ -185,10 +209,15 @@ namespace Contra
 
                             try
                             {
-                                if (end) return;
+                                if (end)
+                                {
+                                    return;
+                                }
+
                                 Parent.Invoke(delegateMoveEnemy);
 
-                            }catch (NullReferenceException) { }
+                            }
+                            catch (NullReferenceException) { }
 
                             i++;
                         }
@@ -199,16 +228,26 @@ namespace Contra
                         Thread.Sleep(2500);
                     }
 
-                }catch (Exception) { }
+                }
+                catch (Exception) { }
             }
 
         }
         public void MoveEnemy()
-        {            
+        {
             if (isMovingLeft)
-                Left -= 10;
+            {
+                Image = imageRight;
+
+                Left -= 11;
+            }
             else
-                Left += 10;
+            {
+                Image = imageLeft;
+
+                Left += 11;
+            }
+
         }
 
         #endregion
@@ -216,6 +255,12 @@ namespace Contra
         #region Shoot Bullet
         public void shoot()
         {
+            if (coolDown == null || coolDown > DateTime.Now)
+                return;
+
+            if (Parent == null)
+                return;
+
             bool bulletShouldGoLeft = isMovingLeft, bulletShouldGoRight = isMovingRight;
 
             Bullet bullet = new Bullet((GameMap)Parent, this)
@@ -225,11 +270,14 @@ namespace Contra
                 isGoingRight = bulletShouldGoRight,
                 isGoingDown = isLookingDown,
                 isGoingUp = isLookingUp,
-                Tag = BulletTag
+                Tag = BulletTag,
+                Image = bullet_image
             };
 
-
-            bullet.taskMovingBullet.Start();
+            try
+            {
+                bullet.taskMovingBullet.Start();
+            }catch (Exception) { }   
 
         }
 

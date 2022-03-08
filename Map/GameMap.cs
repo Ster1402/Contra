@@ -1,20 +1,17 @@
-﻿using System;
+﻿using Contra.components;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Drawing;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
-using Contra.components;
 
 
 namespace Contra.Map
 {
     public class GameMap : PictureBox
     {
-        # region Properties
-        
+        #region Properties
         public bool gameStarted { get; set; }
         public Label labelLevelName { get; set; }
         public bool shouldShowWelcomeLabel { get; set; }
@@ -25,7 +22,7 @@ namespace Contra.Map
 
         public int numberOfMaps;
         public int platformWidth;
-        
+
         public Ground ground { get; set; }
 
         public TabPage parent;
@@ -35,11 +32,11 @@ namespace Contra.Map
         public ProgressBar lifeBar { get; set; }
         public Label playerName { get; set; }
         public PictureBox heartLifeIcon { get; set; }
-        
+
         public bool couldMove;
         public Directions direction;
 
-        public Thread ThreadMovingMap;
+        public Thread ThreadMovingMap { get; set; }
         public delegate void DelegateThreadMovingMap();
         public DelegateThreadMovingMap delegateThreadMoveMap;
 
@@ -47,12 +44,20 @@ namespace Contra.Map
         public DelegatePrintWelcomeLabel delegatePrintWelcomeLabel;
 
         public Thread ThreadBulletCollisionMap;
-        
+
         public delegate void DelegateThreadBulletCollisionMapEnemy(Enemy enemy, Bullet bullet);
         public DelegateThreadBulletCollisionMapEnemy delegateThreadBulletCollisionMapEnemy;
 
         public delegate void DelegateThreadBulletCollisionMapPlayer(Player player, Bullet bullet);
         public DelegateThreadBulletCollisionMapPlayer delegateThreadBulletCollisionMapPlayer;
+
+        public delegate void DelegateThreadEnemyCollisionMapPlayer(Player player, Enemy enemy);
+        public DelegateThreadEnemyCollisionMapPlayer delegateThreadEnemyCollisionMapPlayer;
+
+        public Thread threadAttackPlayer { get; set; }
+        public delegate void DelegateThreadEnemyShootMapPlayer(Enemy enemy, Player player);
+        public DelegateThreadEnemyShootMapPlayer delegateThreadEnemyShootMapPlayer;
+
 
         public bool end { get; set; }
 
@@ -71,14 +76,14 @@ namespace Contra.Map
             Size = new Size(1328, 900);
             Location = new Point(0, 0);
 
-            for(int i = 0; i < numberOfMaps; i++)
+            for (int i = 0; i < numberOfMaps; i++)
             {
-                maps.Add( new SingleMap() );
+                maps.Add(new SingleMap());
                 Controls.Add(maps[i]);
             }
 
             #region Welcome Label
-            
+
             labelLevelName = new Label
             {
                 AutoSize = true,
@@ -164,7 +169,7 @@ namespace Contra.Map
             Controls.Add(playerName);
             Controls.Add(heartLifeIcon);
             Controls.Add(lifeBar);
-            
+
             ground = new Ground(this);
 
             groundLayout_Level_1();
@@ -181,11 +186,14 @@ namespace Contra.Map
             delegateThreadMoveMap = new DelegateThreadMovingMap(MoveMap);
 
             couldMove = false;
-            //ThreadMovingMap.Start();
 
             ThreadBulletCollisionMap = new Thread(BulletCollisionMap);
+            threadAttackPlayer = new Thread(AttackPlayer);
+
             delegateThreadBulletCollisionMapPlayer = new DelegateThreadBulletCollisionMapPlayer(shootPlayer);
             delegateThreadBulletCollisionMapEnemy = new DelegateThreadBulletCollisionMapEnemy(shootEnemy);
+            delegateThreadEnemyCollisionMapPlayer = new DelegateThreadEnemyCollisionMapPlayer(shootPlayer);
+            delegateThreadEnemyShootMapPlayer = new DelegateThreadEnemyShootMapPlayer(EnemyShoot);
 
             //Print label
             delegatePrintWelcomeLabel = new DelegatePrintWelcomeLabel(printLevelStageWelcome);
@@ -201,12 +209,12 @@ namespace Contra.Map
         public void groundLayout_Level_1()
         {
 
-            List<int> lefts = new List<int>() { 5, 6, 7 , 15 , 16 , 30, 31 , 35 , 36 , 37 , 20 , 21 , 22 , 23 , 24, 25, 26, 27 };
-            List<int> tops = new List<int>() { 170, 170, 170,  380, 380, 380, 170 , 170 , 170, 370, 420, 420, 370, 370, 370, 420, 470, 470 };
+            List<int> lefts = new List<int>() { 5, 6, 7, 15, 16, 30, 31, 35, 36, 37, 20, 21, 22, 23, 24, 25, 26, 27 };
+            List<int> tops = new List<int>() { 170, 170, 170, 380, 380, 380, 170, 170, 170, 370, 420, 420, 370, 370, 370, 420, 470, 470 };
 
-            for(int i = 0; i < lefts.Count; i++)
+            for (int i = 0; i < lefts.Count; i++)
             {
-                ground.platforms.Add(new Platform(this, lefts[i] * platformWidth, tops[i] ));
+                ground.platforms.Add(new Platform(this, lefts[i] * platformWidth, tops[i]));
             }
 
             int j = 1;
@@ -221,7 +229,7 @@ namespace Contra.Map
             enemies = new List<Enemy>();
 
             int index = 1;
-            foreach(Platform platform in ground.platforms)
+            foreach (Platform platform in ground.platforms)
             {
                 if (index % 9 == 0 || index % 5 == 0 || index % 13 == 0 || index % 7 == 0)
                 {
@@ -240,21 +248,23 @@ namespace Contra.Map
                         enemy.upgrade();
 
                         if (index > 30)
+                        {
                             enemy.upgrade();
+                        }
                     }
                 }
 
-                
+
                 index++;
             }
 
-            
+
             //enemy.threadMoveEnemy.Start();
 
         }
         public void EraseEnnemies()
         {
-           
+
             foreach (Enemy enemy in enemies)
             {
                 Controls.Remove(enemy);
@@ -297,7 +307,7 @@ namespace Contra.Map
             {
                 enemy.end = true;
             }
-        } 
+        }
 
         #endregion
 
@@ -310,7 +320,9 @@ namespace Contra.Map
             foreach (SingleMap map in maps)
             {
                 if (!Controls.Contains(map))
+                {
                     Controls.Add(map);
+                }
 
                 map.Left = i * map.Width;
                 map.BringToFront();
@@ -320,7 +332,9 @@ namespace Contra.Map
             foreach (Platform platform in ground.platforms)
             {
                 if (!Controls.Contains(platform))
+                {
                     Controls.Add(platform);
+                }
             }
 
             i = 0;
@@ -341,7 +355,7 @@ namespace Contra.Map
             heartLifeIcon.BringToFront();
 
             groundLayout_Level_1();
-            
+
             EraseEnnemies();
             MakeEnnemies();
         }
@@ -367,7 +381,7 @@ namespace Contra.Map
 
         public void resizePlayerName()
         {
-            playerName.Left = Width - playerName.Width - heartLifeIcon.Width - lifeBar.Width - 45;
+            playerName.Left = Width / 2 - playerName.Width / 2;
         }
 
         #endregion
@@ -382,7 +396,8 @@ namespace Contra.Map
 
                 Controls.Add(labelLevelName);
                 labelLevelName.BringToFront();
-            }else
+            }
+            else
             {
                 Controls.Remove(labelLevelName);
             }
@@ -442,7 +457,7 @@ namespace Contra.Map
 
                         MoveEnemiesLeft();
 
-                        for (int i=0; i < maps.Count; i++)
+                        for (int i = 0; i < maps.Count; i++)
                         {
                             maps[i].Left += 15;
                         }
@@ -460,7 +475,9 @@ namespace Contra.Map
                             maps[i].Left -= 15;
 
                             if (maps[i].Right <= 0)
+                            {
                                 Controls.Remove(maps[i]);
+                            }
                         }
 
                         break;
@@ -506,7 +523,9 @@ namespace Contra.Map
                 platform.Left += 15;
 
                 if (platform.Right <= 0)
+                {
                     Controls.Remove(platform);
+                }
             }
         }
 
@@ -517,7 +536,9 @@ namespace Contra.Map
                 platform.Left -= 15;
 
                 if (platform.Right <= 0)
+                {
                     Controls.Remove(platform);
+                }
             }
         }
 
@@ -527,17 +548,22 @@ namespace Contra.Map
 
         public void BulletCollisionMap()
         {
+            threadAttackPlayer.Start();
+
             Thread.CurrentThread.Name = "Collision check !";
 
             while (!end)
             {
-                
+
                 //Check if an enemy has been shooted
                 foreach (Control control in Controls)
                 {
-                    if (control.Tag != Enemy.tag) continue;
+                    if (control.Tag != Enemy.tag)
+                    {
+                        continue;
+                    }
 
-                    Enemy enemy = (Enemy) control;
+                    Enemy enemy = (Enemy)control;
 
                     //Check for player bullets
                     foreach (Control control1 in Controls)
@@ -549,7 +575,7 @@ namespace Contra.Map
 
                             if (bullet.Bounds.IntersectsWith(enemy.Bounds))
                             {
-                                Parent.Invoke(delegateThreadBulletCollisionMapEnemy, enemy, bullet );
+                                Parent.Invoke(delegateThreadBulletCollisionMapEnemy, enemy, bullet);
 
                             }
 
@@ -564,7 +590,7 @@ namespace Contra.Map
                     if (control.Tag == Player.PlayerTag)
                     {
 
-                        Player player = (Player) control;
+                        Player player = (Player)control;
 
                         //Check for enemies bullets
                         foreach (Control control1 in Controls)
@@ -581,12 +607,56 @@ namespace Contra.Map
 
                             }
                         }
+
                     }
 
                 }
 
-                Thread.Sleep(30);
+                Thread.Sleep(50);
 
+            }
+        }
+
+        public void AttackPlayer()
+        {
+            Thread.CurrentThread.Name = "Attack player !";
+
+            while (!end)
+            {
+                //Check the player has been shooted
+                foreach (Control control in Controls)
+                {
+                    if (control.Tag == Player.PlayerTag)
+                    {
+
+                        Player player = (Player)control;
+
+                        foreach (Control control_enemy in Controls)
+                        {
+                            if (control_enemy.Tag == Enemy.tag)
+                            {
+                                Enemy enemy = (Enemy)control_enemy;
+
+                                if (player.Bounds.IntersectsWith(enemy.Bounds))
+                                {
+                                    Thread.Sleep(200);
+                                    Parent.Invoke(delegateThreadEnemyCollisionMapPlayer, player, enemy);
+                                    break;
+                                }
+
+                                if (player.Right >= (enemy.Left - 400) && player.Right <= (enemy.Right + 100))
+                                {
+                                    Thread.Sleep(500);
+                                    Parent.Invoke(delegateThreadEnemyShootMapPlayer, enemy, player);
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+                Thread.Sleep(100);
             }
         }
 
@@ -599,9 +669,73 @@ namespace Contra.Map
 
         }
 
+        public void shootPlayer(Player player, Enemy enemy)
+        {
+            player.subirDegat( enemy.degat / 5 );
+        }
+
+        public void EnemyShoot(Enemy enemy, Player player)
+        {
+            if (player.Right < enemy.Left)
+            {
+                if (enemy.isMovingLeft)
+                {
+                    if (player.Bottom < enemy.Top - 10)
+                    {
+                        enemy.isLookingUp = true;
+                        enemy.isLookingDown = false;
+                        enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                    else if (player.Bottom > enemy.Bottom + 10)
+                    {
+                        enemy.isLookingUp = false;
+                        enemy.isLookingDown = true;
+                        enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                    else
+                    {
+                        enemy.isLookingUp = false;
+                        enemy.isLookingDown = false;
+                        enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                }
+                
+            }
+            else if (player.Left > enemy.Right){
+                
+                if (enemy.isMovingRight)
+                {
+                    if (player.Bottom < enemy.Top - 10)
+                    {
+                        enemy.isLookingUp = true;
+                        enemy.isLookingDown = false;
+                        enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                    else if (player.Bottom > enemy.Bottom + 10)
+                    {
+                        enemy.isLookingUp = false;
+                        enemy.isLookingDown = true;
+                                                enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                    else
+                    {
+                        enemy.isLookingUp = false;
+                        enemy.isLookingDown = false;
+                                                enemy.coolDown.AddSeconds(enemy.rank + 2);
+                        enemy.shoot();
+                    }
+                }
+            }
+        }
+
         public void shootEnemy(Enemy enemy, Bullet bullet)
         {
-            
+
             enemy.subirDegat(bullet.degat);
             bullet.end = true;
             Controls.Remove(bullet);
@@ -611,12 +745,21 @@ namespace Contra.Map
             if (enemy.life.Value == 0)
             {
 
-                if (enemy.rank == 1) score += 5;
-                else if (enemy.rank == 2) score += 10;
-                else if (enemy.rank == 3) score += 20;
+                if (enemy.rank == 1)
+                {
+                    score += 5;
+                }
+                else if (enemy.rank == 2)
+                {
+                    score += 10;
+                }
+                else if (enemy.rank == 3)
+                {
+                    score += 20;
+                }
 
                 scoreLabel.Text = "Score : " + score;
-                
+
                 enemy.end = true;
 
                 Controls.Remove(enemy);

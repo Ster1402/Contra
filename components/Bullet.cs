@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Contra.Map;
+using System;
 using System.Drawing;
 using System.Threading;
-using Contra.Map;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Contra.components
 {
@@ -44,17 +41,20 @@ namespace Contra.components
 
         public Bullet(GameMap map, PictureBox shooter)
         {
+            if (map == null || shooter == null)
+                return;
+            
             index++;
 
             speed = 50;
 
             Map = map;
-            Size = new Size(20,20);
+            Size = new Size(20, 20);
             SizeMode = PictureBoxSizeMode.StretchImage;
             Tag = BulletTag;
 
             Left = shooter.Left;
-            Top = shooter.Top + shooter.Height / 2 - 11;
+            Top = shooter.Top + shooter.Height / 3 - 7;
 
             degat = 10;
             isGoingLeft = false;
@@ -66,6 +66,7 @@ namespace Contra.components
             end = false;
 
             Map.Controls.Add(this);
+            
             BringToFront();
             shooter.BringToFront();
 
@@ -94,47 +95,11 @@ namespace Contra.components
             }
 
             Console.WriteLine(Thread.CurrentThread.Name + " : Is out of box");
-           
+
         }
 
         public void moveBullet()
         {
-            /*//Image
-            if (isGoingLeft && !isGoingUp && !isGoingDown)
-            {
-                Image = Properties.Resources.bullet_left;
-
-            }
-            else if (isGoingRight && !isGoingUp && !isGoingDown)
-            {
-                Image = Properties.Resources.bullet_right;
-
-            }
-            else if (isGoingLeft && isGoingUp)
-            {
-                Image = Properties.Resources.bullet_top_left;
-
-            }
-            else if (isGoingRight && isGoingUp)
-            {
-                Image = Properties.Resources.bullet_top_right;
-            }
-            else if (isGoingLeft && isGoingDown)
-            {
-                Image = Properties.Resources.bullet_bottom_left;
-            }
-            else if (isGoingRight && isGoingDown)
-            {
-                Image = Properties.Resources.bullet_bottom_right;
-            }
-            else if (!isGoingLeft && !isGoingRight && isGoingUp && !isGoingDown)
-            {
-                Image = Properties.Resources.bullet_up;
-            }
-            else if (!isGoingLeft && !isGoingRight && !isGoingUp && isGoingDown)
-            {
-                Image = Properties.Resources.bullet_down;
-            }*/
 
             if (isGoingLeft)
             {
@@ -156,11 +121,12 @@ namespace Contra.components
                 Top += 30;
             }
 
-            isOutOfBox = (Left < 0) || (Left >= Map.Width ) || (Top < 0) || (Top >= Map.Height);
+            isOutOfBox = (Left < 0) || (Left >= Map.Width) || (Top < 0) || (Top >= Map.Height);
 
             if (isOutOfBox && !end)
+            {
                 Map.Controls.Remove(this);
-
+            }
         }
 
         #endregion

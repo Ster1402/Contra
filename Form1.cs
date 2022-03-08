@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Contra.utils;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using Contra.utils;
 
 namespace Contra
 {
@@ -61,7 +61,7 @@ namespace Contra
 
             showMainMenuPage();
 
-            resizeItem();
+            //resizeItem();
 
             //Game Over Panel
             gameOverPanel.Visible = false;
@@ -102,7 +102,7 @@ namespace Contra
         #region On Windows size changed
         public void resizeItem()
         {
-            soundBackground.Size = new Size(0,0);
+            soundBackground.Size = new Size(0, 0);
             soundBackground.SendToBack();
 
             soundHover.Size = new Size(0, 0);
@@ -144,11 +144,11 @@ namespace Contra
             settingsBox.Height = Height - 100;
             settingsBox.Location = new Point(GamePages.Width / 2 - settingsBox.Width / 2, 10 + buttonBack.Height);
 
-            settingsTitle.Left = settingsBox.Width/2 - settingsTitle.Width/2;
+            settingsTitle.Left = settingsBox.Width / 2 - settingsTitle.Width / 2;
             settingsTitle.Top = 5;
 
             groupBoxAccount.Top = settingsTitle.Height + settingsTitle.Top;
-            groupBoxAccount.Left = settingsBox.Width/2 - groupBoxAccount.Width / 2;
+            groupBoxAccount.Left = settingsBox.Width / 2 - groupBoxAccount.Width / 2;
 
             groupBoxAudio.Top = settingsTitle.Height + groupBoxAccount.Height + 20;
             groupBoxAudio.Left = 10;
@@ -171,36 +171,19 @@ namespace Contra
             groupBoxAccount.BringToFront();
             groupBoxCommands.BringToFront();
 
-            buttonReset.Location = new Point( settingsBox.Width / 2 + settingsBox.Left - buttonReset.Width / 2, buttonReset.Location.Y );
+            buttonReset.Location = new Point(settingsBox.Width / 2 + settingsBox.Left - buttonReset.Width / 2, buttonReset.Location.Y);
             buttonSave.Left = buttonReset.Left - buttonSave.Width - 10;
             buttonCancel.Left = buttonReset.Left + buttonReset.Width + 10;
 
             buttonReset.Top = buttonSave.Top = buttonCancel.Top = settingsBox.Height - buttonSave.Height + 10;
 
-            //Map
-            gameMap.Width = GamePages.Width;
-            gameMap.Height = GamePages.Height;
-            gameMap.Left = 0;
-            gameMap.Top = 0;
-
-            //Score Location , Life Bar Location and player name
-            gameMap.scoreLabel.Left = 10;
-            gameMap.scoreLabel.Top = 10;
-
-            gameMap.lifeBar.Left = Width - gameMap.lifeBar.Width - 30;
-            gameMap.lifeBar.Top = 10;
-
-            gameMap.heartLifeIcon.Left = Width - gameMap.heartLifeIcon.Width - gameMap.lifeBar.Width - 35;
-            gameMap.heartLifeIcon.Top = 10;
-
-            gameMap.playerName.Top = 10;
-
+            //Game Map
+            //resize Map
+            resizeMap();
 
             //Game Over Panel
             gameOverPanel.Left = Width / 2 - gameOverPanel.Width / 2;
             gameOverPanel.Top = Height / 2 - gameOverPanel.Height / 2 - 30;
-
-            gameMap.resizeMap();
 
         }
         public void resizeMap()
@@ -221,7 +204,6 @@ namespace Contra
             gameMap.heartLifeIcon.Left = Width - gameMap.heartLifeIcon.Width - gameMap.lifeBar.Width - 35;
             gameMap.heartLifeIcon.Top = 10;
 
-            gameMap.playerName.Left = Width - gameMap.playerName.Width - gameMap.heartLifeIcon.Width - gameMap.lifeBar.Width - 15;
             gameMap.playerName.Top = 10;
 
             gameMap.resizeMap();
@@ -230,6 +212,7 @@ namespace Contra
         {
             resizeItem();
         }
+
         #endregion
 
         #region Click Main Menu Handlers
@@ -250,10 +233,10 @@ namespace Contra
         {
             Cursor.Current = Cursors.WaitCursor;
             Environment.Exit(0);
-            
+
         }
         #endregion
-        
+
         #region Click Scores Menu Handlers
         private void OnButtonBackClicked(object sender, EventArgs e)
         {
@@ -281,7 +264,7 @@ namespace Contra
             GamePages.TabPages.Remove(gamePage);
             GamePages.TabPages.Remove(scoresPage);
             GamePages.TabPages.Remove(settingsPage);
-    
+
             IsMainMenuPageActive = true;
             IsGameActive = false;
             IsScoresPageActive = false;
@@ -362,7 +345,8 @@ namespace Contra
             {
                 stopBackgroundMusic();
             }
-            catch (Exception) {
+            catch (Exception)
+            {
             }
             finally
             {
@@ -395,17 +379,20 @@ namespace Contra
         #endregion
 
         #region Audio
-       
-        public void playBackgroundMusic(string music) {
+
+        public void playBackgroundMusic(string music)
+        {
             soundBackground.settings.volume = settings.volumeBackgroundMusic;
-            soundBackground.URL = "Resources/sounds/" + music; 
+            soundBackground.URL = "Resources/sounds/" + music;
             soundBackground.settings.setMode("loop", true);
             soundBackground.Ctlcontrols.play();
         }
-        public void stopBackgroundMusic() {
+        public void stopBackgroundMusic()
+        {
             soundBackground.Ctlcontrols.stop();
         }
-        public void pauseBackgroundMusic() {
+        public void pauseBackgroundMusic()
+        {
             try
             {
                 soundBackground.Ctlcontrols.pause();
@@ -422,7 +409,8 @@ namespace Contra
             }
             catch (Exception) { }
         }
-        public void playHoverButtonMusic(string music) {
+        public void playHoverButtonMusic(string music)
+        {
             soundHover.settings.volume = settings.volumeSFXMusic;
             soundHover.URL = "Resources/sounds/" + music;
             soundHover.Ctlcontrols.play();
@@ -433,34 +421,38 @@ namespace Contra
             {
                 trackBarBackgroundMusic.Enabled = checkBackgroundMusic.Checked;
                 if (!checkBackgroundMusic.Checked)
+                {
                     soundBackground.settings.volume = 0;
-
+                }
             }
             else
             {
                 settings.SFXMusicEnabled = trackBarSFXMusic.Enabled = checkSFXMusic.Checked;
                 if (!checkSFXMusic.Checked)
+                {
                     soundHover.settings.volume = 0;
+                }
             }
 
         }
         private void OnSoundValueChanged(object sender, EventArgs e)
         {
-            if ( ((TrackBar)sender) == trackBarBackgroundMusic )
+            if (((TrackBar)sender) == trackBarBackgroundMusic)
             {
                 soundBackground.settings.volume = ((TrackBar)sender).Value;
             }
-            else if ( ((TrackBar)sender) == trackBarSFXMusic)
+            else if (((TrackBar)sender) == trackBarSFXMusic)
             {
                 soundHover.settings.volume = ((TrackBar)sender).Value;
             }
 
         }
-        
+
         #endregion
 
         #region File Management
-        private void fileSettingsInit() {
+        private void fileSettingsInit()
+        {
             //Initialisation des variables en fonction du fichier de paramètres
 
         }
@@ -479,16 +471,28 @@ namespace Contra
         #endregion
 
         #region Show Eyes On Button Menu
-        private void showEyes(string eyesTagName, bool ok)
+        private void showEyes(string eyesTagName, bool ok, string tag_eye_right)
         {
             foreach (Control eyes in tableLayoutPanel.Controls)
             {
-                if (eyes.Tag == eyesTagName)
+
+                if (eyes.Tag == eyesTagName || eyes.Tag == tag_eye_right)
                 {
                     if (ok)
-                        ((PictureBox)eyes).Image = Properties.Resources.eye;
+                    {
+                        if (eyes.Tag == tag_eye_right)
+                        {
+                            ((PictureBox)eyes).Image = Properties.Resources.eye_right;
+                        }
+                        else
+                        {
+                            ((PictureBox)eyes).Image = Properties.Resources.eye;
+                        }
+                    }
                     else
+                    {
                         ((PictureBox)eyes).Image = null;
+                    }
                 }
             }
         }
@@ -498,7 +502,7 @@ namespace Contra
         #region Mouse Enter Main Menu Handlers
         private void OnMouseEnterButtonStart(object sender, EventArgs e)
         {
-            showEyes("EyesStart", true);
+            showEyes("EyesStart", true, "eye_right_start");
             playHoverButtonMusic("button_hover.wav");
 
             ButtonStartIsFocused = true;
@@ -510,7 +514,7 @@ namespace Contra
         }
         private void OnMouseEnterButtonScores(object sender, EventArgs e)
         {
-            showEyes("EyesScores", true);
+            showEyes("EyesScores", true, "eye_right_scores");
             playHoverButtonMusic("button_hover.wav");
 
             ButtonStartIsFocused = false;
@@ -522,7 +526,7 @@ namespace Contra
         }
         private void OnMouseEnterButtonSettings(object sender, EventArgs e)
         {
-            showEyes("EyesSettings", true);
+            showEyes("EyesSettings", true, "eye_right_settings");
             playHoverButtonMusic("button_hover.wav");
 
             ButtonStartIsFocused = false;
@@ -534,7 +538,7 @@ namespace Contra
         }
         private void OnMouseEnterButtonExit(object sender, EventArgs e)
         {
-            showEyes("EyesExit", true);
+            showEyes("EyesExit", true, "eye_right_exit");
             playHoverButtonMusic("button_hover.wav");
 
             ButtonStartIsFocused = false;
@@ -545,11 +549,11 @@ namespace Contra
             ((Label)sender).ForeColor = Color.Brown;
         }
         #endregion
-        
+
         #region Mouse Leave Main Menu Handlers
         private void OnMouseLeaveButtonStart(object sender, EventArgs e)
         {
-            showEyes("EyesStart", false);
+            showEyes("EyesStart", false, "eye_right_start");
 
             ButtonStartIsFocused = false;
             ButtonScoresIsFocused = false;
@@ -560,7 +564,7 @@ namespace Contra
         }
         private void OnMouseLeaveButtonScores(object sender, EventArgs e)
         {
-            showEyes("EyesScores", false);
+            showEyes("EyesScores", false, "eye_right_scores");
 
             ButtonStartIsFocused = false;
             ButtonScoresIsFocused = false;
@@ -571,7 +575,7 @@ namespace Contra
         }
         private void OnMouseLeaveButtonSettings(object sender, EventArgs e)
         {
-            showEyes("EyesSettings", false);
+            showEyes("EyesSettings", false, "eye_right_settings");
 
             ButtonStartIsFocused = false;
             ButtonScoresIsFocused = false;
@@ -582,7 +586,7 @@ namespace Contra
         }
         private void OnMouseLeaveButtonExit(object sender, EventArgs e)
         {
-            showEyes("EyesExit", false);
+            showEyes("EyesExit", false, "eye_right_exit");
 
             ButtonStartIsFocused = false;
             ButtonScoresIsFocused = false;
@@ -595,7 +599,7 @@ namespace Contra
 
         #region KeysDown and KeysUp Events Handlers
 
-        private void OnKeysDown(object sender, KeyEventArgs e) 
+        private void OnKeysDown(object sender, KeyEventArgs e)
         {
             if (selectingCommands && IsPopUpActive)
             {
@@ -607,7 +611,7 @@ namespace Contra
                 buttonNoPopUp.Visible = buttonNoPopUp.Enabled = true;
 
                 settings.playerKeys[command] = e.KeyCode.ToString();
-                 
+
                 //Update command
                 commandsSelectLeft.Text = settings.playerKeys["KeyLeft"];
                 commandsSelectUp.Text = settings.playerKeys["KeyUp"];
@@ -627,7 +631,7 @@ namespace Contra
                 titlePopUp.Text = "Quit without saving ?";
 
             }
-            else if (!IsPopUpActive)    
+            else if (!IsPopUpActive)
             {
                 if (IsGameActive && player != null)
                 {
@@ -641,7 +645,8 @@ namespace Contra
                                 player.shoot();
                             }
 
-                        }else if (e.KeyCode == Keys.Enter )
+                        }
+                        else if (e.KeyCode == Keys.Enter)
                         {
                             //Gestion de l'action Entrer au clavier
 
@@ -683,10 +688,10 @@ namespace Contra
                             player.shouldMove = true;
                             player.isMovingDown = true;
                             player.isMovingUp = false;
-                            
+
                             player.isLookingUp = false;
                             player.isLookingDown = true;
-                        
+
                         }
                         else if (e.KeyCode == Keys.Escape && !IsGameOver)
                         {
@@ -697,7 +702,7 @@ namespace Contra
 
                             }
                         }
-                    
+
                     }
                     catch (Exception) { }
                 }
@@ -708,16 +713,19 @@ namespace Contra
                         confirmSettings();
                     }
                     else if (IsScoresPageActive)
+                    {
                         showMainMenuPage();
+                    }
                 }
                 else if (IsGamePaused && e.KeyCode == Keys.Escape && !IsGameOver)
                 {
                     resumeGame();
                 }
 
-            }   
+            }
         }
-        private void OnKeysUp(object sender, KeyEventArgs e) {
+        private void OnKeysUp(object sender, KeyEventArgs e)
+        {
             if (IsGameActive && player != null)
             {
                 try
@@ -747,7 +755,8 @@ namespace Contra
                         player.shouldMove = false;
                         player.isMovingDown = false;
                         player.isLookingDown = false;
-                    }else if (e.KeyCode.ToString() == settings.playerKeys["KeyShoot"])
+                    }
+                    else if (e.KeyCode.ToString() == settings.playerKeys["KeyShoot"])
                     {
                         player.isShooting = false;
                     }
@@ -776,7 +785,8 @@ namespace Contra
         {
             playBackgroundMusic("Intro.mp3");
         }
-        private void pauseGame() {
+        private void pauseGame()
+        {
 
             IsGamePaused = true;
             IsGameActive = false;
@@ -793,20 +803,26 @@ namespace Contra
 
             gameMenu.Visible = true;
 
-            soundBackground.Ctlcontrols.pause();
-            playHoverButtonMusic("Allumette.mp3");
+            playBackgroundMusic("Allumette.mp3");
+            soundBackground.settings.setMode("loop", false);
 
             try
             {
                 player.ThreadPlayerMouvement.Suspend();
+
                 gameMap.pauseEnemiesThread();
+
+                gameMap.threadAttackPlayer.Suspend();
+                gameMap.ThreadBulletCollisionMap.Suspend();
                 gameMap.ThreadMovingMap.Suspend();
-            
-            }catch (Exception) { }
+
+            }
+            catch (Exception) { }
 
         }
-        private void resumeGame() {
-            
+        private void resumeGame()
+        {
+
             IsGameResumed = true;
             IsGamePaused = false;
             IsGameActive = true;
@@ -815,12 +831,16 @@ namespace Contra
 
             gameGravity.Enabled = true;
 
-            soundBackground.Ctlcontrols.play();
+            playBackgroundMusic("Level_1.mp3");
 
             try
             {
                 player.ThreadPlayerMouvement.Resume();
+
                 gameMap.ThreadMovingMap.Resume();
+                gameMap.ThreadBulletCollisionMap.Resume();
+                gameMap.threadAttackPlayer.Resume();
+                
                 gameMap.resumeEnemiesThread();
 
             }
@@ -839,6 +859,10 @@ namespace Contra
             try
             {
                 gameMap.pauseEnemiesThread();
+
+                gameMap.threadAttackPlayer.Suspend();
+                gameMap.ThreadBulletCollisionMap.Suspend();
+
                 gameMap.ThreadMovingMap.Suspend();
             }
             catch (Exception) { }
@@ -855,7 +879,7 @@ namespace Contra
                 {
 
                     player.end = true;
-                    
+
                 }
             }
 
@@ -875,12 +899,12 @@ namespace Contra
         }
         private void StartGame()
         {
-            if ( gameMap.ThreadMovingMap.ThreadState == ThreadState.Unstarted )
+            if (gameMap.ThreadMovingMap.ThreadState == ThreadState.Unstarted)
             {
                 try
                 {
                     gameMap.ThreadMovingMap.Start();
-            
+
                     gameMap.startEnemiesThread();
 
                 }
@@ -892,6 +916,9 @@ namespace Contra
                 try
                 {
                     gameMap.ThreadMovingMap.Resume();
+                    gameMap.threadAttackPlayer.Resume();
+                    gameMap.ThreadBulletCollisionMap.Resume();
+
                     gameMap.resumeEnemiesThread();
 
                 }
@@ -900,7 +927,7 @@ namespace Contra
 
             player = new Player(gameMap);
             gameGravity.Enabled = true;
-            
+
             IsGameActive = true;
             IsGameOver = false;
             gameMap.gameStarted = true;
@@ -918,6 +945,9 @@ namespace Contra
             try
             {
                 gameMap.ThreadMovingMap.Resume();
+                gameMap.threadAttackPlayer.Resume();
+                gameMap.ThreadBulletCollisionMap.Resume();
+
             }
             catch (Exception) { }
 
@@ -934,7 +964,7 @@ namespace Contra
                 {
 
                     player.end = true;
-                    
+
                 }
 
             }
@@ -1010,9 +1040,9 @@ namespace Contra
                 ((Label)sender).BackColor = Color.DarkRed;
             }
             else
+            {
                 ((Label)sender).BackColor = Color.Ivory;
-
-            ((Label)sender).ForeColor = Color.Black;
+            } ((Label)sender).ForeColor = Color.Black;
         }
         private void OnMouseLeaveButtonSettingsBox(object sender, EventArgs e)
         {
@@ -1025,7 +1055,7 @@ namespace Contra
             ((Label)sender).BackColor = Color.Ivory;
 
             ((Label)sender).ForeColor = Color.Black;
-        
+
         }
         private void OnMouseLeaveCommandsSettings(object sender, EventArgs e)
         {
@@ -1113,19 +1143,21 @@ namespace Contra
         }
 
         #endregion
-        
+
         #region Game Menu Events
-        
+
         private void OnGameMenuButtonClicked(object sender, EventArgs e)
         {
-            if ( ((Label)sender) == buttonRestart)
+            if (((Label)sender) == buttonRestart)
             {
                 restart();
-            
-            }else if (((Label)sender) == buttonResume)
+
+            }
+            else if (((Label)sender) == buttonResume)
             {
                 resumeGame();
-            }else if (((Label)sender) == buttonQuit)
+            }
+            else if (((Label)sender) == buttonQuit)
             {
                 stopGame();
             }
@@ -1137,11 +1169,17 @@ namespace Contra
             ((Label)sender).ForeColor = Color.Black;
 
             if (((Label)sender) == buttonRestart)
+            {
                 buttonRestart.BackColor = Color.Aquamarine;
+            }
             else if (((Label)sender) == buttonResume)
+            {
                 buttonResume.BackColor = Color.DarkGreen;
+            }
             else if (((Label)sender) == buttonQuit)
+            {
                 buttonQuit.BackColor = Color.DarkRed;
+            }
         }
         private void OnMouseLeaveGameMenuButton(object sender, EventArgs e)
         {
@@ -1155,15 +1193,15 @@ namespace Contra
 
         private void Gravity(object sender, EventArgs e)
         {
-            if (player != null && !IsGameOver)
+            if (player != null && !IsGameOver && WindowState != FormWindowState.Minimized)
             {
                 if (player.Bottom < Height && !player.isJumping)
                 {
                     player.currentPlatform.BackColor = Color.Transparent;
 
-                    if ( !player.IsPlayerIsOnGround())
+                    if (!player.IsPlayerIsOnGround())
                     {
-                        player.Top += 7;
+                        player.Top += 10;
 
                         player.isOnGround = false;
                         player.shouldMove = false;
@@ -1175,20 +1213,20 @@ namespace Contra
                         player.couldChangeDirection = true;
 
                         //player.currentPlatform.BackColor = Color.Green;
-                        
+
                         //Console.WriteLine("Current platform : left = " + player.currentPlatform.Left + " right = " + player.currentPlatform.Right);
                         //Console.WriteLine("Player : left = " + player.Left + " right = " + player.Right);
 
                     }
 
                 }
-                else if ( player.Bottom >= Height )
+                else if (player.Bottom >= Height)
                 {
                     player.Top = 100;
-                    player.subirDegat(20);
+                    player.subirDegat(15);
                 }
-                
-                if ( player.life == 0 )
+
+                if (player.life == 0)
                 {
                     gameOver();
                 }
@@ -1220,7 +1258,7 @@ namespace Contra
         {
             gameOverPanel.Visible = false;
             gameOverPanel.Enabled = false;
-            
+
             stopGame();
         }
 

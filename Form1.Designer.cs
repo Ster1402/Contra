@@ -64,7 +64,6 @@
             this.buttonResume = new System.Windows.Forms.Label();
             this.buttonRestart = new System.Windows.Forms.Label();
             this.titleGameMenu = new System.Windows.Forms.Label();
-            this.gameMap = new Contra.Map.GameMap();
             this.scoresPage = new System.Windows.Forms.TabPage();
             this.buttonBack = new System.Windows.Forms.Label();
             this.arrowBack = new System.Windows.Forms.PictureBox();
@@ -106,6 +105,7 @@
             this.textBoxPlayerName = new System.Windows.Forms.TextBox();
             this.settingsTitle = new System.Windows.Forms.Label();
             this.gameGravity = new System.Windows.Forms.Timer(this.components);
+            this.gameMap = new Contra.Map.GameMap();
             this.GamePages.SuspendLayout();
             this.mainMenuPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureMainMenu)).BeginInit();
@@ -129,7 +129,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gameOverLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gameOverPicture3)).BeginInit();
             this.gameMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).BeginInit();
             this.scoresPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowBack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureScoresMenu)).BeginInit();
@@ -147,6 +146,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarBackgroundMusic)).BeginInit();
             this.groupBoxAccount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).BeginInit();
             this.SuspendLayout();
             // 
             // GamePages
@@ -409,7 +409,7 @@
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox8.TabIndex = 15;
             this.pictureBox8.TabStop = false;
-            this.pictureBox8.Tag = "EyesStart";
+            this.pictureBox8.Tag = "eye_right_start";
             // 
             // pictureBox6
             // 
@@ -420,7 +420,7 @@
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 13;
             this.pictureBox6.TabStop = false;
-            this.pictureBox6.Tag = "EyesScores";
+            this.pictureBox6.Tag = "eye_right_scores";
             // 
             // pictureBox7
             // 
@@ -431,7 +431,7 @@
             this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox7.TabIndex = 14;
             this.pictureBox7.TabStop = false;
-            this.pictureBox7.Tag = "EyesSettings";
+            this.pictureBox7.Tag = "eye_right_settings";
             // 
             // pictureBox5
             // 
@@ -442,7 +442,7 @@
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 12;
             this.pictureBox5.TabStop = false;
-            this.pictureBox5.Tag = "EyesExit";
+            this.pictureBox5.Tag = "eye_right_exit";
             // 
             // title
             // 
@@ -667,20 +667,6 @@
             this.titleGameMenu.TabIndex = 0;
             this.titleGameMenu.Text = "PAUSE";
             this.titleGameMenu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gameMap
-            // 
-            this.gameMap.end = false;
-            this.gameMap.gameStarted = false;
-            this.gameMap.Image = ((System.Drawing.Image)(resources.GetObject("gameMap.Image")));
-            this.gameMap.Location = new System.Drawing.Point(3, 3);
-            this.gameMap.Name = "gameMap";
-            this.gameMap.score = 0;
-            this.gameMap.shouldShowWelcomeLabel = false;
-            this.gameMap.Size = new System.Drawing.Size(1328, 900);
-            this.gameMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.gameMap.TabIndex = 0;
-            this.gameMap.TabStop = false;
             // 
             // scoresPage
             // 
@@ -1283,6 +1269,20 @@
             this.gameGravity.Tag = "timer";
             this.gameGravity.Tick += new System.EventHandler(this.Gravity);
             // 
+            // gameMap
+            // 
+            this.gameMap.end = false;
+            this.gameMap.gameStarted = false;
+            this.gameMap.Image = ((System.Drawing.Image)(resources.GetObject("gameMap.Image")));
+            this.gameMap.Location = new System.Drawing.Point(3, 3);
+            this.gameMap.Name = "gameMap";
+            this.gameMap.score = 0;
+            this.gameMap.shouldShowWelcomeLabel = false;
+            this.gameMap.Size = new System.Drawing.Size(1328, 900);
+            this.gameMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.gameMap.TabIndex = 0;
+            this.gameMap.TabStop = false;
+            // 
             // GameWindows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1290,12 +1290,12 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1356, 745);
             this.Controls.Add(this.GamePages);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GameWindows";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ContraX";
+            this.Text = "Contra - By SterDevs";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BeforeWindowsClose);
             this.Load += new System.EventHandler(this.GameLoad);
@@ -1325,7 +1325,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gameOverPicture3)).EndInit();
             this.gameMenu.ResumeLayout(false);
             this.gameMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).EndInit();
             this.scoresPage.ResumeLayout(false);
             this.scoresPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowBack)).EndInit();
@@ -1350,6 +1349,7 @@
             this.groupBoxAccount.ResumeLayout(false);
             this.groupBoxAccount.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameMap)).EndInit();
             this.ResumeLayout(false);
 
         }

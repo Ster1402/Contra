@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Contra.utils
@@ -29,7 +26,7 @@ namespace Contra.utils
         #region Constructor
         public Settings()
         {
-            playerNames = new List<string>() { "  Overlord"};
+            playerNames = new List<string>() { "  Overlord" };
             playerKeys = new Dictionary<string, string>();
 
             backgroundMusicEnabled = true;
@@ -63,7 +60,7 @@ namespace Contra.utils
             playerKeys["KeyRight"] = settings.playerKeys["KeyRight"];
             playerKeys["KeyDown"] = settings.playerKeys["KeyDown"];
             playerKeys["KeyShoot"] = settings.playerKeys["KeyShoot"];
-        
+
         }
 
         #endregion
@@ -88,7 +85,9 @@ namespace Contra.utils
                 volumeBackgroundMusic = windows.trackBarBackgroundMusic.Value * 10;
             }
             else
+            {
                 volumeBackgroundMusic = 0;
+            }
 
             if (windows.checkSFXMusic.Checked)
             {
@@ -104,12 +103,12 @@ namespace Contra.utils
 
             windows.soundBackground.settings.volume = volumeBackgroundMusic;
             windows.soundHover.settings.volume = volumeSFXMusic;
-            
+
             //Commands
             playerKeys["KeyLeft"] = windows.commandsSelectLeft.Text.Trim();
-            playerKeys["KeyUp"]    = windows.commandsSelectUp.Text.Trim();
+            playerKeys["KeyUp"] = windows.commandsSelectUp.Text.Trim();
             playerKeys["KeyRight"] = windows.commandsSelectRight.Text.Trim();
-            playerKeys["KeyDown"]  = windows.commandsSelectDown.Text.Trim();
+            playerKeys["KeyDown"] = windows.commandsSelectDown.Text.Trim();
             playerKeys["KeyShoot"] = windows.commandsSelectShoot.Text.Trim();
         }
 
@@ -119,7 +118,7 @@ namespace Contra.utils
             windows.soundHover.settings.volume = volumeSFXMusic;
 
             //Commands
-            windows.commandsSelectLeft.Text = playerKeys["KeyLeft"] ;
+            windows.commandsSelectLeft.Text = playerKeys["KeyLeft"];
             windows.commandsSelectUp.Text = playerKeys["KeyUp"];
             windows.commandsSelectRight.Text = playerKeys["KeyRight"];
             windows.commandsSelectDown.Text = playerKeys["KeyDown"];
@@ -146,7 +145,7 @@ namespace Contra.utils
             playerKeys["KeyUp"] = Keys.Up.ToString();
             playerKeys["KeyRight"] = Keys.Right.ToString();
             playerKeys["KeyDown"] = Keys.Down.ToString();
-            playerKeys["KeyShoot"] = Keys.Space.ToString() ;
+            playerKeys["KeyShoot"] = Keys.Space.ToString();
 
             windows.gameMap.playerName.Text = windows.playerNames.Text.Trim();
             windows.soundBackground.settings.volume = volumeBackgroundMusic;

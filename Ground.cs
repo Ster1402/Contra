@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Contra.Map;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
-using Contra.Map;
 
 namespace Contra
 {
@@ -23,10 +18,10 @@ namespace Contra
 
             int platformsWidth = this.map.platformWidth = this.map.Width / 10;
 
-            for(int i=0; i < 10 * map.numberOfMaps + 4; i++)
+            for (int i = 0; i < 10 * map.numberOfMaps + 4; i++)
             {
                 platforms.Add(new Platform(this.map, i * platformsWidth, 260));
-                
+
             }
 
         }

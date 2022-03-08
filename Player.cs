@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Contra.components;
+using Contra.Map;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
-using System.Drawing;
-using Contra.Map;
-using Contra.components;
 
 namespace Contra
 {
@@ -45,11 +43,18 @@ namespace Contra
 
         private int imageIndex; //Pour le mouvement;
         public bool shouldMove { get; set; }
-        
+
         private List<Image> imagesMoveRight;
         private List<Image> imagesMoveLeft;
-        private List<Image> imagesMoveTop;
-        private List<Image> imagesMoveBottom;
+
+        private List<Image> imagesShootRight;
+        private List<Image> imagesShootLeft;
+
+        private List<Image> imagesShootTopRight;
+        private List<Image> imagesShootTopLeft;
+
+        private List<Image> imagesShootDownRight;
+        private List<Image> imagesShootDownLeft;
 
         public bool couldChangeDirection { get; set; }
         public bool isMovingLeft { get; set; }
@@ -72,6 +77,7 @@ namespace Contra
         #endregion
 
         #region Constructors
+
         public Player(GameMap parent)
         {
             //Init Map
@@ -81,7 +87,9 @@ namespace Contra
 
             name = "SterDevs";
             Tag = PlayerTag;
-            life = 100;
+            life = 300;
+            lifeBar.Maximum = 300;
+            lifeBar.Value = life;
 
             speed = 15; //Player speed
             direction = Directions.Right; //Il regarde à droite par défaut
@@ -91,17 +99,26 @@ namespace Contra
             jumpingDelay = 1500; //2s de saut pour montrer
 
             //Init PictureBox
-            Size = new Size(45, 90);
+            Size = new Size(28, 90);
+
             SizeMode = PictureBoxSizeMode.StretchImage;
             Location = new Point(90, 170);
-            
-            imageIndex = 0;       
+
+            imageIndex = 0;
+
             imagesMoveRight = new List<Image> { Properties.Resources.PicRight1, Properties.Resources.PicRight2, Properties.Resources.PicRight3 };
             imagesMoveLeft = new List<Image> { Properties.Resources.PicLeft1, Properties.Resources.PicLeft2, Properties.Resources.PicLeft3 };
-            imagesMoveTop = new List<Image>();
-            imagesMoveBottom = new List<Image>();
 
-            Image = imagesMoveRight[0];
+            imagesShootRight = new List<Image>() { Properties.Resources.shoot_right_1, Properties.Resources.shoot_right_2, Properties.Resources.shoot_right_3 };
+            imagesShootLeft = new List<Image>() { Properties.Resources.shoot_left_1, Properties.Resources.shoot_left_2, Properties.Resources.shoot_left_3 };
+
+            imagesShootTopRight = new List<Image>() { Properties.Resources.shoot_top_right_1, Properties.Resources.shoot_top_right_2, Properties.Resources.shoot_top_right_3 };
+            imagesShootTopLeft = new List<Image>() { Properties.Resources.shoot_top_left_1, Properties.Resources.shoot_top_left_2, Properties.Resources.shoot_top_left_3 };
+
+            imagesShootDownRight = new List<Image>() { Properties.Resources.shoot_down_right_1, Properties.Resources.shoot_down_right_2, Properties.Resources.shoot_down_right_3 };
+            imagesShootDownLeft = new List<Image>() { Properties.Resources.shoot_down_left_1, Properties.Resources.shoot_down_left_2, Properties.Resources.shoot_down_left_3 };
+
+            Image = imagesMoveRight[2];
 
             currentPlatform = Map.ground.platforms.First();
 
@@ -114,7 +131,7 @@ namespace Contra
         private void initThread()
         {
             ThreadPlayerMouvement = new Thread(ThreadMouvement);
-            
+
             delegateThreadPlayerMouvement = new DelegateThreadPlayerMouvement(movePlayer);
 
             shouldMove = false; //Par défaut il est stable
@@ -130,9 +147,10 @@ namespace Contra
             ThreadPlayerJump.Start();
 
         }
+
         #endregion
 
-        #region Moving Thread
+        #region Move and Jump Thread
 
         //Thread déplacement
         public void ThreadMouvement()
@@ -153,7 +171,7 @@ namespace Contra
                         numberOfImagesToShow--;
                     }
 
-                    if (Right >= ( Map.Parent.Width / 2 + 25 ) )
+                    if (Right >= (Map.Parent.Width / 2 + 25))
                     {
                         if (direction == Directions.Right)
                         {
@@ -191,11 +209,11 @@ namespace Contra
             foreach (Platform platform in Map.ground.platforms)
             {
                 //Check the top
-                if ( ( platform.Top + platform.Height - 5 ) > Bottom && Bottom > (platform.Top - 10) )
+                if ((platform.Top + platform.Height - 5) > Bottom && Bottom > (platform.Top - 10))
                 {
                     //Check the Left
                     //if ( Bounds.IntersectsWith( platform.Bounds ) )
-                    if ( (platform.Left - 25) < Left && Right < (platform.Right + 25) )
+                    if ((platform.Left - 25) < Left && Right < (platform.Right + 25))
                     {
                         currentPlatform = platform;
                         Top = currentPlatform.Top - Height;
@@ -205,7 +223,7 @@ namespace Contra
 
                 }
             }
-            
+
             return false;
         }
 
@@ -216,35 +234,85 @@ namespace Contra
 
             imageIndex = (imageIndex + 1) % 3; //On change l'index de la prochaine image
 
+            //Image
+            if (!isShooting)
+            {
+                Width = 28;
+
+                if (isMovingLeft)
+                {
+                    Image = imagesMoveLeft[imageIndex];
+                }
+
+                if (isMovingRight)
+                {
+                    Image = imagesMoveRight[imageIndex];
+                }
+
+            }
+            else
+            {
+                //Size = new Size(75, 90);
+                Width = 35;
+
+                if (isMovingLeft && !isLookingUp && !isLookingDown)
+                {
+                    Image = imagesShootLeft[imageIndex];
+
+                }
+
+                if (isMovingRight && !isLookingUp && !isLookingDown)
+                {
+                    Image = imagesShootRight[imageIndex];
+
+                }
+
+                if (isLookingUp && isLookingRight)
+                {
+                    Image = imagesShootTopRight[imageIndex];
+
+                }
+
+                if (isLookingUp && isLookingLeft)
+                {
+                    Image = imagesShootTopLeft[imageIndex];
+
+                }
+
+                if (isLookingDown && isLookingRight)
+                {
+                    Image = imagesShootDownRight[imageIndex];
+
+                }
+
+                if (isLookingDown && isLookingLeft)
+                {
+                    Image = imagesShootDownLeft[imageIndex];
+                }
+
+            }
+
             if (isMovingLeft)
             {
-                    Image = imagesMoveLeft[imageIndex];
-
-                    if (Left > Map.Left + 20)
-                        Left -= speed;
-            }
-            
-            if (isMovingUp)
-            {
-                    //Image = imagesMoveTop[imageIndex];
-
+                if (Left > Map.Left + 20)
+                {
+                    Left -= speed;
+                }
             }
 
             if (isMovingDown)
             {
                 isMovingDown = false;
-                //Image = imagesMoveTop[imageIndex];
                 Top += currentPlatform.Height / 2 + 30;
 
-            } 
+            }
 
             if (isMovingRight)
             {
-                Image = imagesMoveRight[imageIndex];
-                    
-                if (Left < Map.Width - 320)
+                if (Left < Map.Width - 450)
+                {
                     Left += speed;
-
+                }
             }
 
         }
@@ -268,10 +336,14 @@ namespace Contra
 
                         int maxJumpingHeight;
 
-
                         if ((Top - 80) > (Map.scoreLabel.Bottom - 20))
-                            maxJumpingHeight = Top - 80;
-                        else maxJumpingHeight = Top - 10;
+                        {
+                            maxJumpingHeight = Top - 110;
+                        }
+                        else
+                        {
+                            maxJumpingHeight = Top - 10;
+                        }
 
                         try
                         {
@@ -337,8 +409,9 @@ namespace Contra
             if (isMovingLeft && Left > Map.Left + 20)
             {
                 Left -= 5;
-            
-            }if (isMovingRight && Left < Map.Width - 270)
+
+            }
+            if (isMovingRight && Left < Map.Width - 270)
             {
                 Left += 5;
             }
@@ -358,10 +431,10 @@ namespace Contra
             }
         }
 */
-        
+
         #endregion
 
-        #region Shoot Bullet
+        #region Bullet Management
 
         public void subirDegat(int degat)
         {
@@ -370,24 +443,51 @@ namespace Contra
 
         public void shoot()
         {
+            if (Map == null) return;
 
             bool bulletShouldGoLeft, bulletShouldGoRight;
 
             bulletShouldGoLeft = isLookingLeft;
             bulletShouldGoRight = isLookingRight;
 
-            /*if (isMovingUp && !isMovingLeft)
-                bulletShouldGoLeft = false;
-           
-            if (isMovingUp && !isMovingRight)
-                bulletShouldGoRight = false;
+            Width = 35;
 
-            if (isMovingDown && !isMovingLeft)
-                bulletShouldGoLeft = false;
+            if (!isMovingLeft && !isMovingRight && !isMovingUp && !isMovingDown)
+            {
+                if (isLookingLeft && !isLookingUp && !isLookingDown)
+                {
+                    Image = imagesShootLeft[2];
 
-            if (isMovingDown && !isMovingRight)
-                bulletShouldGoRight = false;
-*/
+                }
+
+                if (isLookingRight && !isLookingUp && !isLookingDown)
+                {
+                    Image = imagesShootRight[2];
+
+                }
+
+                if (isLookingUp && isLookingRight)
+                {
+                    Image = imagesShootTopRight[2];
+
+                }
+
+                if (isLookingUp && isLookingLeft)
+                {
+                    Image = imagesShootTopLeft[2];
+
+                }
+
+                if (isLookingDown && isLookingRight)
+                {
+                    Image = imagesShootDownRight[2];
+                }
+
+                if (isLookingDown && isLookingLeft)
+                {
+                    Image = imagesShootDownLeft[2];
+                }
+            }
 
             Bullet bullet = new Bullet(Map, this)
             {
@@ -399,13 +499,16 @@ namespace Contra
                 Image = Properties.Resources.bullet_player
             };
 
-            //On tire
-            bullet.taskMovingBullet.Start();
-
+            try
+            {
+                //On tire
+                bullet.taskMovingBullet.Start();
+            }
+            catch (Exception) { }
         }
 
         #endregion
-    
+
     }
 
 }
